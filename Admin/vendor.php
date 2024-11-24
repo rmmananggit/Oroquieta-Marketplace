@@ -30,7 +30,6 @@ include("./includes/sidebar.php");
                                 <th>Address</th>
                                 <th>Birthday</th>
                                 <th>Status</th>
-                                <th>Rating</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -46,8 +45,7 @@ include("./includes/sidebar.php");
                                     users.address_baranggay, 
                                     users.address_city, 
                                     users.account_status, 
-                                    users.date_of_birth, 
-                                    users.ratings
+                                    users.date_of_birth
                                   FROM users
                                   WHERE users.role = 'seller'";
                         $query_run = mysqli_query($con, $query);
@@ -84,15 +82,6 @@ include("./includes/sidebar.php");
                                         echo '<span class="badge bg-secondary">Pending</span>';
                                     } else {
                                         echo '<span class="badge bg-light">Invalid</span>';
-                                    }
-                                    ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    if (empty($row['ratings'])) {
-                                        echo 'N/A';
-                                    } else {
-                                        echo $row['ratings'];
                                     }
                                     ?>
                                 </td>

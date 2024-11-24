@@ -11,9 +11,9 @@ if(!isset($_SESSION['auth']))
 }
 else
 {
-    if ($_SESSION['userRole'] != "admin")
+    if ($_SESSION['userRole'] != "buyer")
     {
-        $_SESSION['status'] = "You are not authorized as ADMIN!";
+        $_SESSION['status'] = "You are not authorized as Customer!";
         $_SESSION['status_code'] = "warning";
         header("Location: ../index.php");
         exit(0);

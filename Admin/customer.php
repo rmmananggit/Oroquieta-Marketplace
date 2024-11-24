@@ -6,11 +6,11 @@ include("./includes/sidebar.php");
 ?>
 
 <div class="pagetitle">
-    <h1>Vendor</h1>
+    <h1>Customer</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Dashboard</li>
-            <li class="breadcrumb-item active">Vendor</li>
+            <li class="breadcrumb-item active">Customer</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -74,21 +74,20 @@ include("./includes/sidebar.php");
                                 <td><?= date("Y-m-d", strtotime($row['date_of_birth'])); ?></td>
                                 <td>
                                     <?php
-                                    if ($row['account_status'] == 'active') {
+                                    if ($row['account_status'] == 'Active') {
                                         echo '<span class="badge bg-success">Active</span>';
-                                    } elseif ($row['account_status'] == 'suspended') {
+                                    } elseif ($row['account_status'] == 'Suspended') {
                                         echo '<span class="badge bg-warning text-dark">Suspended</span>';
-                                    } elseif ($row['account_status'] == 'pending') {
+                                    } elseif ($row['account_status'] == 'Pending') {
                                         echo '<span class="badge bg-secondary">Pending</span>';
                                     } else {
                                         echo '<span class="badge bg-light">Invalid</span>';
                                     }
                                     ?>
                                 </td>
-                                <td class="text-center">
-                                    <a href="edit_vendor.php?id=<?= $row['user_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="delete_vendor.php?id=<?= $row['user_id']; ?>" class="btn btn-danger btn-sm">Delete</a>
-                                </td>           
+                                <td>
+                                    <a href="view_customer.php?id=<?= $row['user_id']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
+                                </td>             
                             </tr>
                         <?php
                             }

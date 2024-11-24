@@ -199,7 +199,6 @@ include("./includes/sidebar.php");
  if(isset($_GET['id']))
  {
     $id = mysqli_real_escape_string($con, $_GET['id']);
-   // Updated SQL query
     $users = "SELECT
             users.*,
             COALESCE(
@@ -240,12 +239,10 @@ include("./includes/sidebar.php");
                   {
               
             if (!empty($user['profile_image'])) {
-                // Assume profile_image is binary data
                 $imageData = base64_encode($user['profile_image']);
-                $mimeType = 'image/jpeg'; // Adjust based on your data
+                $mimeType = 'image/jpeg';
                 $profileImageSrc = 'data:' . $mimeType . ';base64,' . $imageData;
             } else {
-                // Default image
                 $profileImageSrc = './assets/img/noimage.jpg';
             }
               ?>
@@ -265,7 +262,7 @@ include("./includes/sidebar.php");
 
                             <h4 class="text-primary font-size-20 mt-3 mb-2"><?= $user['first_name']; ?> <?= $user['last_name']; ?></h4>
                         </div>
-                    </div><!-- end col -->
+                    </div>
                     <div class="col-md-9">
                         <div class="ms-3">
                             <div>
@@ -293,15 +290,15 @@ include("./includes/sidebar.php");
                                         <p class="text-muted fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i><?= $user['phone_number']; ?>
                                         </p>
                                     </div>
-                                </div><!-- end col -->
-                            </div><!-- end row -->
+                                </div>
+                            </div>
                          
                         
                         </div>
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end card body -->
-        </div><!-- end card -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="card">
     <div class="tab-content p-4">
@@ -327,22 +324,18 @@ include("./includes/sidebar.php");
                     product.product_id;";
                 $products_run = mysqli_query($con, $products_query);
 
-                // Check if any products exist
                 if (mysqli_num_rows($products_run) > 0) {
                     while ($product = mysqli_fetch_assoc($products_run)) {
-                        // Check if the product image exists
                         if (!empty($product['image'])) {
-                            // If image is a longblob in MySQL, you can convert it like this
                             $imageData = base64_encode($product['image']);
-                            $mimeType = 'image/jpeg'; // You can adjust this if the image is of another type (e.g., PNG, GIF)
+                            $mimeType = 'image/jpeg'; 
                             $productImage = 'data:' . $mimeType . ';base64,' . $imageData;
                         } else {
-                            // Default image if no image is found
                             $productImage = './assets/img/noimage.jpg';
                         }
                 ?>
-                    <div class="col-md-4 mb-4" id="project-items-<?= $product['product_id']; ?>"> <!-- Changed col-md-6 to col-md-4 to fit 3 per row -->
-                        <div class="card h-100"> <!-- h-100 ensures all cards have the same height -->
+                    <div class="col-md-4 mb-4" id="project-items-<?= $product['product_id']; ?>">
+                        <div class="card h-100"> 
                             <div class="card-body d-flex flex-column">
                                 <div class="d-flex mb-3">
                                     <div class="flex-grow-1 align-items-start">
@@ -354,7 +347,7 @@ include("./includes/sidebar.php");
                                     </div>
                                 </div>
 
-                                <div class="d-flex mt-auto"> <!-- mt-auto pushes the status and condition to the bottom -->
+                                <div class="d-flex mt-auto">
                                     <span class="badge badge-soft-info p-2 team-status text-dark" style="margin-left: 10px;"><?= $product['product_condition']; ?></span>
                                     <div class="align-self-end" style="margin-left: 10px;">
                                         <span class="badge p-2 team-status 
@@ -363,9 +356,9 @@ include("./includes/sidebar.php");
                                         </span>
                                     </div>
                                 </div>
-                            </div><!-- end card-body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
+                            </div>
+                        </div>
+                    </div>
                 <?php
                     }
                 } else {
@@ -378,7 +371,7 @@ include("./includes/sidebar.php");
 </div>
 
 
-    </div><!-- end col -->
+    </div>
 
     <div class="col-xl-4">
         <div class="card">
@@ -416,8 +409,8 @@ include("./includes/sidebar.php");
                     <p><?= $formattedDate; ?></p>
 
                 </div>
-            </div><!-- end cardbody -->
-        </div><!-- end card -->
+            </div>
+        </div>
 
         <div class="card">
             <div class="card-body">
@@ -429,24 +422,24 @@ include("./includes/sidebar.php");
                                 <tr>
                                     <th scope="row">Name</th>
                                     <td><?= $user['first_name']; ?> <?= $user['last_name']; ?></td>
-                                </tr><!-- end tr -->
+                                </tr>
                                 <tr>
                                     <th scope="row">Location</th>
                                     <td><?= $user['address_street']; ?>, <?= $user['address_baranggay']; ?>, <?= $user['address_city']; ?></td>
-                                </tr><!-- end tr -->
+                                </tr>
                                 <tr>
                                     <th scope="row">Birthday</th>
                                     <td><?= $user['date_of_birth']; ?></td>
-                                </tr><!-- end tr -->
-                            </tbody><!-- end tbody -->
-                        </table><!-- end table -->
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div><!-- end card body -->
-        </div><!-- end card -->
+            </div>
+        </div>
 
 
-    </div><!-- end col -->
+    </div>
 </div>
 </div>
 
