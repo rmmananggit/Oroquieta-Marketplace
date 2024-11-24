@@ -6,11 +6,13 @@
  
  if (isset($_POST['addproduct'])) {
     $product_name = $_POST['product_name'];
-    $description = $_POST['description'];
+    $description = !empty($_POST['description']) ? $_POST['description'] : null;
     $category = $_POST['category'];
     $quantity = $_POST['quantity'];
     $price = $_POST['price'];
-    $images = $_FILES['images']; // Use $_FILES to handle file uploads
+
+    $images = !empty($_FILES['images']['name'][0]) ? $_FILES['images'] : null;
+    
 
     // Insert the product into the `product` table
     $query = "INSERT INTO `product`(`vendor_id`, `name`, `description`, `price`, `category`, `quantity`, `status`) VALUES ('$userId', '$product_name', '$description', '$price', '$category', '$quantity', 'available')";

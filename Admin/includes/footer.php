@@ -43,6 +43,7 @@
   <script src="assets/vendor/quill/quill.js"></script>
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
@@ -151,6 +152,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
+<!-- Script for view modal in products -->
+<script>
+$(document).ready(function () {
+    $(".view-product-details").on("click", function () {
+        const productId = $(this).data("id");
+
+        // Clear previous content
+        $("#productDetailsContent").html("<p>Loading...</p>");
+
+        // Fetch product details
+        $.ajax({
+            url: "./controller/get-product-details.php",
+            type: "GET",
+            data: { id: productId },
+            success: function (response) {
+                const data = JSON.parse(response);
+
+                if (data.success) {
+                    const product = data.product;
+                    const images = data.images;
+
+                    // Generate images grid
+                    const imagesHtml = images
+                        .map(img => `<img src="${img}" class="product-image" alt="Product Image">`)
+                        .join("");
+
+                    // Populate modal content
+                    $("#productDetailsContent").html(`
+                        <p><strong>Name:</strong> ${product.name}</p>
+                        <p><strong>Description:</strong> ${product.description}</p>
+                        <p><strong>Price:</strong> ₱${product.price}</p>
+                        <p><strong>Category:</strong> ${product.categoryName}</p>
+                        <p><strong>Quantity:</strong> ${product.quantity}</p>
+                        <div class="images-container">${imagesHtml}</div>
+                    `);
+                } else {
+                    $("#productDetailsContent").html("<p>Product details could not be loaded.</p>");
+                }
+            },
+            error: function () {
+                $("#productDetailsContent").html("<p>An error occurred while loading product details.</p>");
+            },
+        });
+    });
+});
+</script>
+
 
 </body>
 

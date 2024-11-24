@@ -76,11 +76,11 @@ include("./includes/sidebar.php");
                                 <td><?= date("Y-m-d", strtotime($row['date_of_birth'])); ?></td>
                                 <td>
                                     <?php
-                                    if ($row['account_status'] == 'active') {
+                                    if ($row['account_status'] == 'Active') {
                                         echo '<span class="badge bg-success">Active</span>';
-                                    } elseif ($row['account_status'] == 'suspended') {
+                                    } elseif ($row['account_status'] == 'Suspended') {
                                         echo '<span class="badge bg-warning text-dark">Suspended</span>';
-                                    } elseif ($row['account_status'] == 'pending') {
+                                    } elseif ($row['account_status'] == 'Pending') {
                                         echo '<span class="badge bg-secondary">Pending</span>';
                                     } else {
                                         echo '<span class="badge bg-light">Invalid</span>';
@@ -96,9 +96,8 @@ include("./includes/sidebar.php");
                                     }
                                     ?>
                                 </td>
-                                <td class="text-center">
-                                    <a href="edit_vendor.php?id=<?= $row['user_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="delete_vendor.php?id=<?= $row['user_id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                <td>
+                                    <a href="view_vendor.php?id=<?= $row['user_id']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
                                 </td>           
                             </tr>
                         <?php

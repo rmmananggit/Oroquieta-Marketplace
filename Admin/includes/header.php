@@ -38,4 +38,22 @@
   ======================================================== -->
 </head>
 
+<style>
+.images-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
+    gap: 15px; /* Space between images */
+    justify-items: center; /* Center align images in each cell */
+}
+.product-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; /* Ensure images are proportionally cropped */
+    border: 1px solid #ddd; /* Optional border for visual clarity */
+    border-radius: 4px; /* Optional rounded corners */
+}
+</style>
+
+
+
 <body>

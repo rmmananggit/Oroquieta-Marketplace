@@ -1,5 +1,4 @@
 <?php
-// Include necessary files
 include("./includes/authentication.php");
 include("./includes/header.php");
 include("./includes/topbar.php");
@@ -11,12 +10,11 @@ include("./includes/sidebar.php");
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Dashboard</li>
-            <li class="breadcrumb-item active">My Listings</li>
+            <li class="breadcrumb-item active">Current Listings</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
-<?php $userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']); ?>
 
 <section class="section">
     <div class="row">
@@ -24,67 +22,7 @@ include("./includes/sidebar.php");
             <div class="card">
                 <div class="card-body">
                     <br>
-                                      <!-- Button to Open Modal -->
-                                      <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createListingModal">
-                            Create Listings
-                        </button>
-                    </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="createListingModal" tabindex="-1" aria-labelledby="createListingModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="createListingModalLabel">Create a New Listing</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="./controller/add-products.php" method="POST" enctype="multipart/form-data">
-                                        <div class="mb-3">
-                                            <label for="productName" class="form-label">Product Name <span style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="productName" name="product_name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="description" class="form-label">Description <small>(Optional)</small></label>
-                                            <textarea class="form-control" id="description" name="description" rows="9" required></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="price" class="form-label">Price <span style="color: red;">*</span></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text">₱</span>
-                                                <input type="number" class="form-control" id="price" name="price" required>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="category" class="form-label">Category <span style="color: red;">*</span></label>
-                                            <select class="form-select" id="category" name="category" required>
-                                                <option value="">Select Category</option>
-                                                <?php
-                                                $categoryQuery = "SELECT id, name FROM categories";
-                                                $categories = mysqli_query($con, $categoryQuery);
-                                                while ($category = mysqli_fetch_assoc($categories)) {
-                                                    echo "<option value='{$category['id']}'>{$category['name']}</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="quantity" class="form-label">Quantity <span style="color: red;">*</span></label>
-                                            <input type="number" class="form-control" id="quantity" name="quantity" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="images" class="form-label">Product Images <small>(Optional)</small></label>
-                                            <input type="file" class="form-control" id="images" name="images[]" multiple>
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="submit" name="addproduct" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
                         <thead>
@@ -121,8 +59,6 @@ include("./includes/sidebar.php");
                        categories
                    ON 
                        product.category = categories.id
-                   WHERE
-                       product.vendor_id = $userId
                    GROUP BY
                        product.product_id";           
                         $query_run = mysqli_query($con, $query);
@@ -169,13 +105,13 @@ include("./includes/sidebar.php");
                                         ?>
                                     </a>
                                 </td>
-                                <td class="text-center">
-                                    <a href="edit_vendor.php?id=<?= $row['product_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                <td>
                                     <a href="javascript:void(0);" 
-                                    class="btn btn-danger btn-sm delete-product" 
+                                    class="btn btn-primary btn-sm view-product-details" 
                                     data-id="<?= $row['product_id']; ?>" 
-                                    data-name="<?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>">
-                                    Delete
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#viewDetailsModal">
+                                        <i class="bi bi-eye"></i>
                                     </a>
                                 </td>
                             </tr>

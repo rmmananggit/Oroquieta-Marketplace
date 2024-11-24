@@ -32,7 +32,7 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link <?php echo ($current_page == 'faculty.php') ? '' : 'collapsed'; ?>" href="faculty.php">
+    <a class="nav-link <?php echo ($current_page == 'products.php') ? '' : 'collapsed'; ?>" href="products.php">
     <i class="bi bi-box-seam"></i>
       <span>Products</span>
     </a>
