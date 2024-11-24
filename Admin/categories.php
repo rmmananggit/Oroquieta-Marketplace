@@ -53,9 +53,10 @@ include("./includes/sidebar.php");
                                 <td><?= $row['description']; ?></td>
                                 <td><?= date("Y-m-d", strtotime($row['created_at'])); ?></td>
                                 <td class="text-center">
-                                    <a href="edit_category.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="javascript:void(0);" onclick="openEditModal(<?= $row['id']; ?>)" class="btn btn-warning btn-sm">Edit</a>
                                     <a href="delete_category.php?id=<?= $row['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
-                                </td>           
+                                </td>
+       
                             </tr>
                             <?php
                             }
@@ -75,6 +76,36 @@ include("./includes/sidebar.php");
         </div>
     </div>
 </section>
+
+<!-- Modal for Editing Category -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCategoryForm" method="POST">
+                    <input type="hidden" name="id" id="categoryId">
+                    <div class="mb-3">
+                        <label for="categoryName" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" id="categoryName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="categoryDescription" name="description" required></textarea>
+                    </div>
+                    <div class="modal-footer text-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <?php
 include("./includes/footer.php");

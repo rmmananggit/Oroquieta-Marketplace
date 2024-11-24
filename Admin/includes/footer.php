@@ -151,10 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 9);
   });
 });
-</script>
 
-<!-- Script for view modal in products -->
-<script>
 $(document).ready(function () {
     $(".view-product-details").on("click", function () {
         const productId = $(this).data("id");
@@ -198,6 +195,190 @@ $(document).ready(function () {
         });
     });
 });
+
+  function viewCustomerDetails(userId) {
+    $.ajax({
+        url: './controller/view_customer_details.php',  // Correct path to the PHP file
+        method: 'GET',
+        data: { id: 3 },  // Passing the user_id for the customer you want to view
+        success: function(response) {
+            console.log("AJAX Response:", response);  // Log the raw response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse JSON response
+                if (data.success) {
+                    // If success, display customer details in the modal
+                    let customer = data.data;
+
+                    // Format the registration_date to 12-hour AM/PM format
+                    let registrationDate = new Date(customer.registration_date);
+                    let options = {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    };
+                    let formattedDate = registrationDate.toLocaleString('en-US', options);
+
+                    let customerDetails = `
+                        <p><strong>Username:</strong> ${customer.username}</p>
+                        <p><strong>Email:</strong> ${customer.email}</p>
+                        <p><strong>Phone:</strong> ${customer.phone_number}</p>
+                        <p><strong>Address:</strong> ${customer.address_street}, ${customer.address_baranggay}, ${customer.address_city}</p>
+                        <p><strong>Birthday:</strong> ${customer.date_of_birth}</p>
+                        <p><strong>Date Registered:</strong> ${formattedDate}</p> <!-- Use formatted date -->
+                        <p><strong>Status:</strong> ${customer.account_status}</p>
+                    `;
+                    $('#customer-details').html(customerDetails);  // Update the modal content with customer data
+
+                    // Show the modal (ensure you have modal-related JS functionality)
+                    $('#customerModal').modal('show');
+                } else {
+                    $('#customer-details').html('<p>' + data.message + '</p>');  // Show error message if no customer found
+                    $('#customerModal').modal('show');
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                $('#customer-details').html('<p>Error processing the data.</p>');
+                $('#customerModal').modal('show');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            $('#customer-details').html('<p>Error processing your request.</p>');
+            $('#customerModal').modal('show');
+        }
+    });
+}
+
+// Edit Category
+function openEditModal(categoryId) {
+    $.ajax({
+        url: './controller/fetch_category_details.php',  // This is the PHP file that fetches category data by ID
+        method: 'GET',
+        data: { id: categoryId },
+        success: function(response) {
+            console.log("AJAX Response:", response);  // Log the response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse the JSON response
+                if (data.success) {
+                    // Populate modal form fields with category data
+                    $('#categoryId').val(data.data.id);
+                    $('#categoryName').val(data.data.name);
+                    $('#categoryDescription').val(data.data.description);
+                    
+                    // Show the modal
+                    $('#editCategoryModal').modal('show');
+                } else {
+                    alert("Failed to fetch category details.");
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                alert('Error fetching category details.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            alert('Error fetching category details.');
+        }
+    });
+}
+
+
+// Handle Category Update Submission
+$('#editCategoryForm').on('submit', function(e) {
+    e.preventDefault();  // Prevent the default form submission
+
+    var formData = $(this).serialize();  // Serialize the form data
+
+    $.ajax({
+        url: './controller/update_category.php',  // PHP script to update the category
+        method: 'POST',
+        data: formData,
+        success: function(response) {
+            console.log("Update Response:", response);  // Log the response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse JSON response
+                if (data.success) {
+                    // Show success Toaster message with consistent format
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,  // Message from the PHP response
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+
+                    // Close the modal after success
+                    $('#editCategoryModal').modal('hide');  // Close the modal
+
+                    // Reload the page after 2 seconds to show the updated category
+                    setTimeout(function() {
+                        location.reload();  // Reload the page
+                    }, 2000);
+                } else {
+                    // Show error Toaster message with consistent format
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.message,  // Error message from PHP
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error updating category.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error updating category.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
 </script>
 
 

@@ -28,7 +28,7 @@ include("./includes/sidebar.php");
                                 <th>Profile Picture</th>
                                 <th><b>N</b>ame</th>
                                 <th>Address</th>
-                                <th>Birthday</th>
+                                <th>Last Login</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -45,7 +45,8 @@ include("./includes/sidebar.php");
                                     users.address_baranggay, 
                                     users.address_city, 
                                     users.account_status, 
-                                    users.date_of_birth
+                                    users.date_of_birth,
+                                    users.last_login
                                   FROM users
                                   WHERE users.role = 'buyer'";
                         $query_run = mysqli_query($con, $query);
@@ -71,7 +72,7 @@ include("./includes/sidebar.php");
                                     </td>
                                 <td><?= $row['first_name']; ?> <?= $row['last_name']; ?></td>
                                 <td><?= $row['address_street'] . ', ' . $row['address_baranggay'] . ', ' . $row['address_city']; ?></td>
-                                <td><?= date("Y-m-d", strtotime($row['date_of_birth'])); ?></td>
+                                <td><?= date("Y-m-d", strtotime($row['last_login'])); ?></td>
                                 <td>
                                     <?php
                                     if ($row['account_status'] == 'Active') {
@@ -86,8 +87,10 @@ include("./includes/sidebar.php");
                                     ?>
                                 </td>
                                 <td>
-                                    <a href="view_customer.php?id=<?= $row['user_id']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
-                                </td>             
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#customerModal" onclick="viewCustomerDetails(<?= $row['user_id']; ?>)">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </td>   
                             </tr>
                         <?php
                             }
@@ -101,12 +104,29 @@ include("./includes/sidebar.php");
                         ?>
                         </tbody>
                     </table>
-                    <!-- End Table with stripped rows -->
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Modal for Viewing Customer Details -->
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalLabel">Customer Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="customer-details">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
 
 <?php
 include("./includes/footer.php");
