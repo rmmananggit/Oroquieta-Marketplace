@@ -39,28 +39,28 @@ include("./includes/sidebar.php");
                         </thead>
                         <tbody>
                         <?php
-                       $query = "SELECT
-                       product.product_id, 
-                       product.`name`, 
-                       product.description, 
-                       product.price, 
-                       product.category, 
-                       product.quantity, 
-                       product.`status`, 
-                       MIN(product_images.image) AS image, 
-                       categories.`name` AS categoryName
-                   FROM
-                       product
-                   LEFT JOIN
-                       product_images
-                   ON 
-                       product.product_id = product_images.product_id
-                   INNER JOIN
-                       categories
-                   ON 
-                       product.category = categories.id
-                   GROUP BY
-                       product.product_id";           
+                      $query = "SELECT
+                                    product.product_id, 
+                                    product.`name`, 
+                                    product.description, 
+                                    product.price, 
+                                    product.category, 
+                                    product.quantity, 
+                                    product.`status`, 
+                                    MIN(CASE WHEN product_images.is_primary = 1 THEN product_images.image ELSE NULL END) AS image, 
+                                    categories.`name` AS categoryName
+                                FROM
+                                    product
+                                LEFT JOIN
+                                    product_images
+                                ON 
+                                    product.product_id = product_images.product_id
+                                INNER JOIN
+                                    categories
+                                ON 
+                                    product.category = categories.id
+                                GROUP BY
+                                    product.product_id";     
                         $query_run = mysqli_query($con, $query);
                         if (!$query_run) {
                             die("Query failed: " . mysqli_error($con));

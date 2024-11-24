@@ -376,6 +376,19 @@ $('#editCategoryForm').on('submit', function(e) {
 });
 
 
+$(document).on('click', '.delete-category', function () {
+    const categoryId = $(this).data('id');
+    const categoryName = $(this).data('name');
+
+    // Update modal content
+    $('#deletecategoryName').text(categoryName);
+    $('#deletecategoryId').val(categoryId);  // Ensure the ID is correctly set
+
+    // Show the modal
+    $('#deleteConfirmationModal').modal('show');
+});
+
+
 
 
 
