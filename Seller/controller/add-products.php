@@ -1,10 +1,11 @@
 <?php
- include("../config/config.php");
- session_start();
+include("../config/config.php");
+session_start();
 
- $userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']);
- 
- if (isset($_POST['addproduct'])) {
+$userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']);
+$activity_type = "New Listing";
+
+if (isset($_POST['addproduct'])) {
     $product_name = $_POST['product_name'];
     $description = !empty($_POST['description']) ? $_POST['description'] : null;
     $category = $_POST['category'];
@@ -12,15 +13,21 @@
     $price = $_POST['price'];
 
     $images = !empty($_FILES['images']['name'][0]) ? $_FILES['images'] : null;
-    
 
     // Insert the product into the `product` table
-    $query = "INSERT INTO `product`(`vendor_id`, `name`, `description`, `price`, `category`, `quantity`, `status`) VALUES ('$userId', '$product_name', '$description', '$price', '$category', '$quantity', 'available')";
+    $query = "INSERT INTO `product`(`vendor_id`, `name`, `description`, `price`, `category`, `quantity`, `status`) 
+              VALUES ('$userId', '$product_name', '$description', '$price', '$category', '$quantity', 'available')";
     $query_run = mysqli_query($con, $query);
 
     if ($query_run) {
         // Get the last inserted product ID
         $product_id = mysqli_insert_id($con);
+
+        // Log the activity
+        $activity_description = "Vendor added a new product: $product_name (ID: $product_id)";
+        $activity_log = "INSERT INTO `recent_activities`(`user_id`, `activity_type`, `description`) 
+                         VALUES ('$userId', '$activity_type', '$activity_description')";
+        mysqli_query($con, $activity_log);
 
         // Check if files were uploaded
         if (!empty($images['name'][0])) {
@@ -56,7 +63,4 @@
     }
     mysqli_close($con);
 }
-
-
-
 ?>

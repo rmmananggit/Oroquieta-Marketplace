@@ -25,31 +25,30 @@ include("./includes/sidebar.php");
             <!-- Sales Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
-
+                  <h5 class="card-title">Listings <span>| Posted</span></h5>
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                    <?php
+                                   
+                                   $listings = "SELECT
+                                                  product.*
+                                                FROM
+                                                  product";
+                                   $listings_run = mysqli_query($con, $listings);
 
+
+                                   if($listings_total = mysqli_num_rows($listings_run))
+                                   {
+                                       echo '<h6 class="mb-0"> '.$listings_total.' </h6>';
+                                   }else
+                                   {
+                                       echo '<h6 class="mb-0">0</h6>';
+                                   }
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -60,31 +59,33 @@ include("./includes/sidebar.php");
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Vendor <span>| Total</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                    <i class="bi bi-person"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                    <?php
+                                   
+                                   $vendor = "SELECT
+                                                      users.*
+                                                    FROM
+                                                      users
+                                                    WHERE
+                                                      users.role = 'seller'";
+                                   $vendor_run = mysqli_query($con, $vendor);
 
+
+                                   if($vendor_total = mysqli_num_rows($vendor_run))
+                                   {
+                                       echo '<h6 class="mb-0"> '.$vendor_total.' </h6>';
+                                   }else
+                                   {
+                                       echo '<h6 class="mb-0">0</h6>';
+                                   }
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -96,31 +97,33 @@ include("./includes/sidebar.php");
             <div class="col-xxl-4 col-xl-12">
 
               <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Customers <span>| Total</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                    <?php
+                                   
+                                   $customer = "SELECT
+                                                      users.*
+                                                    FROM
+                                                      users
+                                                    WHERE
+                                                      users.role = 'buyer'";
+                                   $customer_run = mysqli_query($con, $customer);
 
+
+                                   if($customer_total = mysqli_num_rows($customer_run))
+                                   {
+                                       echo '<h6 class="mb-0"> '.$customer_total.' </h6>';
+                                   }else
+                                   {
+                                       echo '<h6 class="mb-0">0</h6>';
+                                   }
+                      ?>
                     </div>
                   </div>
 
@@ -128,88 +131,6 @@ include("./includes/sidebar.php");
               </div>
 
             </div><!-- End Customers Card -->
-
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
 
             <!-- Recent Sales -->
             <div class="col-12">
@@ -365,78 +286,67 @@ include("./includes/sidebar.php");
         <!-- Right side columns -->
         <div class="col-lg-4">
 
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
+              
+      <div class="card">
+          <div class="card-body">
               <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
               <div class="activity">
+                  <?php
+                  date_default_timezone_set('Asia/Manila');
+                  include("../config/config.php");
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                  </div>
-                </div><!-- End activity item-->
+                  // Fetch the latest 4 recent activities
+                  $query = "SELECT ra.activity_type, ra.description, ra.created_at, u.username 
+                            FROM recent_activities ra
+                            INNER JOIN users u ON ra.user_id = u.user_id
+                            ORDER BY ra.created_at DESC
+                            LIMIT 4";
+                  $query_run = mysqli_query($con, $query);
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
+                  if ($query_run && mysqli_num_rows($query_run) > 0) {
+                      while ($activity = mysqli_fetch_assoc($query_run)) {
+                          // Calculate time elapsed
+                          $created_at = new DateTime($activity['created_at']);
+                          $now = new DateTime();
+                          $elapsed = $created_at->diff($now);
+                          
+                          if ($elapsed->d > 0) {
+                              $time_label = $elapsed->d . " day" . ($elapsed->d > 1 ? "s" : "");
+                          } elseif ($elapsed->h > 0) {
+                              $time_label = $elapsed->h . " hr" . ($elapsed->h > 1 ? "s" : "");
+                          } elseif ($elapsed->i > 0) {
+                              $time_label = $elapsed->i . " min";
+                          } else {
+                              $time_label = "Just now";
+                          }
 
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
-
+                          // Dynamic badge colors based on activity type
+                          $badge_color = match ($activity['activity_type']) {
+                              "New Listing" => "text-success",
+                              "Updated Listing" => "text-primary",
+                              "Deleted Listing" => "text-danger",
+                              default => "text-muted",
+                          };
+                  ?>
+                          <div class="activity-item d-flex">
+                              <div class="activite-label"><?= $time_label; ?></div>
+                              <i class="bi bi-circle-fill activity-badge <?= $badge_color; ?> align-self-start"></i>
+                              <div class="activity-content">
+                                  <?= htmlspecialchars($activity['activity_type']); ?>: 
+                                  <a href="#" class="fw-bold text-dark"><?= htmlspecialchars($activity['description']); ?></a>
+                                  by <?= htmlspecialchars($activity['username']); ?>
+                              </div>
+                          </div><!-- End activity item -->
+                  <?php
+                      }
+                  } else {
+                      echo "<p>No recent activities found.</p>";
+                  }
+                  ?>
               </div>
+          </div>
+      </div>
 
-            </div>
-          </div><!-- End Recent Activity -->
 
           <!-- Budget Report -->
           <div class="card">

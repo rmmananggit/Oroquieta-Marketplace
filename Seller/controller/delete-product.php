@@ -5,24 +5,41 @@ include(__DIR__ . '/../config/config.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $productId = mysqli_real_escape_string($con, $_POST['product_id']);
 
-    // Delete the product from the database
-    $deleteProductQuery = "DELETE FROM product WHERE product_id = $productId";
-    $deleteImagesQuery = "DELETE FROM product_images WHERE product_id = $productId";
+    // Start transaction
+    mysqli_begin_transaction($con);
 
-    $productDeleted = mysqli_query($con, $deleteProductQuery);
-    $imagesDeleted = mysqli_query($con, $deleteImagesQuery);
+    try {
+        // Delete associated images first
+        $deleteImagesQuery = "DELETE FROM product_images WHERE product_id = $productId";
+        $imagesDeleted = mysqli_query($con, $deleteImagesQuery);
 
-    if ($productDeleted && $imagesDeleted) {
+        if (!$imagesDeleted) {
+            throw new Exception("Failed to delete associated images: " . mysqli_error($con));
+        }
+
+        // Delete the product
+        $deleteProductQuery = "DELETE FROM product WHERE product_id = $productId";
+        $productDeleted = mysqli_query($con, $deleteProductQuery);
+
+        if (!$productDeleted) {
+            throw new Exception("Failed to delete product: " . mysqli_error($con));
+        }
+
+        // Commit transaction
+        mysqli_commit($con);
+
         $_SESSION['status'] = "Product deleted successfully.";
         $_SESSION['status_code'] = "success";
-        header("Location: ../products.php");
-        exit();
-    } else {
-        $_SESSION['status'] = "Failed to delete the product.";
+    } catch (Exception $e) {
+        // Rollback transaction on failure
+        mysqli_rollback($con);
+
+        $_SESSION['status'] = "Error deleting product: " . $e->getMessage();
         $_SESSION['status_code'] = "error";
-        header("Location: ../products.php");
-        exit();
     }
 
+    // Redirect back to products page
+    header("Location: ../products.php");
+    exit();
 }
 ?>

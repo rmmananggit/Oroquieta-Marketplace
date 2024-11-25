@@ -157,11 +157,11 @@ include("./includes/sidebar.php");
                                 <td><?= $row['quantity']; ?></a></td>
                                 <td>
                                         <?php
-                                        if ($row['status'] == 'available') {
+                                        if ($row['status'] == 'Available') {
                                             echo '<span class="badge bg-success">Available</span>';
-                                        } elseif ($row['status'] == 'sold_out') {
+                                        } elseif ($row['status'] == 'Sold Out') {
                                             echo '<span class="badge bg-warning text-dark">Sold Out</span>';
-                                        } elseif ($row['status'] == 'disabled') {
+                                        } elseif ($row['status'] == 'Disabled') {
                                             echo '<span class="badge bg-secondary">Disabled</span>';
                                         } else {
                                             echo '<span class="badge bg-light">Invalid</span>';
