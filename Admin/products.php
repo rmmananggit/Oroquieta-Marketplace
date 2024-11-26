@@ -73,7 +73,7 @@ include("./includes/sidebar.php");
                                     : './assets/img/noimage.jpg';
                         ?>
                             <tr>
-                                <!-- Wrap each cell with a link to the details page -->
+
                                 <td>
                                         <img src="<?= $profileImageSrc; ?>" alt="Product Image" style="width: 100px; height: 100px;">
                                     </a>

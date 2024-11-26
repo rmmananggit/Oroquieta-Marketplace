@@ -388,8 +388,19 @@ $(document).on('click', '.delete-category', function () {
     $('#deleteConfirmationModal').modal('show');
 });
 
+    function previewImage(event) {
+        const file = event.target.files[0]; // Get the selected file
+        const reader = new FileReader(); // Create a FileReader to read the file
 
+        reader.onload = function(e) {
+            const preview = document.getElementById('profileImagePreview'); // Get the image element
+            preview.src = e.target.result; // Set the src to the file's data URL
+        };
 
+        if (file) {
+            reader.readAsDataURL(file); // Read the file as a data URL
+        }
+    }
 
 
 </script>
