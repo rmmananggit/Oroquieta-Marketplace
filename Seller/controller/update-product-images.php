@@ -2,15 +2,16 @@
 session_start();
 include(__DIR__ . '/../config/config.php');
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
     $imageId = intval($_POST['image_id']); // Convert to integer
+    $productId = intval($_POST['product_id']); // Get the product_id correctly
 
     if ($action === 'delete') {
-        $deleteQuery = "DELETE FROM product_images WHERE image_id = ?";
+        // Delete the image for a specific product
+        $deleteQuery = "DELETE FROM product_images WHERE image_id = ? AND product_id = ?";
         if ($stmt = mysqli_prepare($con, $deleteQuery)) {
-            mysqli_stmt_bind_param($stmt, 'i', $imageId);
+            mysqli_stmt_bind_param($stmt, 'ii', $imageId, $productId); // Bind both image_id and product_id
             if (mysqli_stmt_execute($stmt)) {
                 $_SESSION['status'] = "Image deleted successfully.";
                 $_SESSION['status_code'] = "success";
@@ -24,20 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['status_code'] = "error";
         }
     } elseif ($action === 'set_primary') {
-        $productId = intval($_POST['product_id']); // Convert to integer
-
-        // Prepare and execute the reset primary query
+        // Reset the primary image for the specific product
         $resetQuery = "UPDATE product_images SET is_primary = 0 WHERE product_id = ?";
         if ($stmt = mysqli_prepare($con, $resetQuery)) {
-            mysqli_stmt_bind_param($stmt, 'i', $productId);
+            mysqli_stmt_bind_param($stmt, 'i', $productId); // Reset primary images for the specific product
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
         }
 
-        // Prepare and execute the set primary query
-        $setPrimaryQuery = "UPDATE product_images SET is_primary = 1 WHERE image_id = ?";
+        // Set the new primary image for the specific product
+        $setPrimaryQuery = "UPDATE product_images SET is_primary = 1 WHERE image_id = ? AND product_id = ?";
         if ($stmt = mysqli_prepare($con, $setPrimaryQuery)) {
-            mysqli_stmt_bind_param($stmt, 'i', $imageId);
+            mysqli_stmt_bind_param($stmt, 'ii', $imageId, $productId); // Bind image_id and product_id
             if (mysqli_stmt_execute($stmt)) {
                 $_SESSION['status'] = "Image set as primary successfully.";
                 $_SESSION['status_code'] = "success";

@@ -46,7 +46,7 @@ include("./includes/sidebar.php");
                                             <input type="text" class="form-control" id="productName" name="product_name" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="description" class="form-label">Description <small>(Optional)</small></label>
+                                            <label for="description" class="form-label">Description <small>(Put N/A if none)</small></label>
                                             <textarea class="form-control" id="description" name="description" rows="9" required></textarea>
                                         </div>
                                         <div class="mb-3">
@@ -151,7 +151,20 @@ include("./includes/sidebar.php");
                                     <?= $row['name']; ?>
                                     </a>
                                 </td>
-                                <td><?= $row['description']; ?></a></td>
+                                <td>
+                                    <?php
+                                    $description = $row['description'];
+                                    $words = explode(' ', $description);
+                                    $words = array_slice($words, 0, 50);
+                                    $truncatedDescription = implode(' ', $words);
+
+                                    if (count($words) < count(explode(' ', $description))) {
+                                        $truncatedDescription .= '...';
+                                    }
+
+                                    echo $truncatedDescription;
+                                    ?>
+                                </td>
                                 <td><?= number_format($row['price'], 2, '.', ','); ?></td>
                                 <td><?= $row['categoryName']; ?></a></td>
                                 <td><?= $row['quantity']; ?></a></td>

@@ -31,25 +31,43 @@ if (isset($_POST['addproduct'])) {
 
         // Check if files were uploaded
         if (!empty($images['name'][0])) {
-            for ($i = 0; $i < count($images['name']); $i++) {
+            $total_images = count($images['name']);
+            $is_first_image = true; // Flag to track the first image
+
+            // Loop through the uploaded images
+            for ($i = 0; $i < $total_images; $i++) {
+                // Check for file upload error
+                if ($_FILES['images']['error'][$i] !== UPLOAD_ERR_OK) {
+                    echo "Error uploading file: " . $_FILES['images']['name'][$i] . " (Error code: " . $_FILES['images']['error'][$i] . ")";
+                    exit;
+                }
+
+                // Get file details
                 $file_name = $images['name'][$i];
                 $file_tmp = $images['tmp_name'][$i];
 
-                // Ensure the file is an image
+                // Allowed file types
                 $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
                 $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-                
+
                 if (in_array($file_ext, $allowed_extensions)) {
                     // Read the file contents
                     $image_data = file_get_contents($file_tmp);
 
-                    // Insert the binary data into the `product_images` table
-                    $image_query = "INSERT INTO `product_images`(`product_id`, `image`) VALUES (?, ?)";
+                    // If this is the first image, set is_primary to 1; otherwise, set it to 0
+                    $image_is_primary = $is_first_image ? 1 : 0;
+                    $is_first_image = false; // Set this to false after the first image
+
+                    // Insert the image into the database with the primary flag
+                    $image_query = "INSERT INTO `product_images`(`product_id`, `image`, `is_primary`) VALUES (?, ?, ?)";
                     $stmt = mysqli_prepare($con, $image_query);
-                    mysqli_stmt_bind_param($stmt, 'ib', $product_id, $image_data);
+                    mysqli_stmt_bind_param($stmt, 'isb', $product_id, $image_data, $image_is_primary);
                     mysqli_stmt_send_long_data($stmt, 1, $image_data);
                     mysqli_stmt_execute($stmt);
                     mysqli_stmt_close($stmt);
+                } else {
+                    echo "Invalid file type for file: " . $file_name;
+                    exit;
                 }
             }
         }

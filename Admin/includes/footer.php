@@ -402,6 +402,89 @@ $(document).on('click', '.delete-category', function () {
         }
     }
 
+    const newPasswordInput = document.getElementById('newPassword');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    const submitButton = document.getElementById('submitBtn');
+    const renewPasswordInput = document.getElementById('renewPassword');
+
+    // Regular expressions for validation
+    const minLength = /.{8,}/;
+    const hasUppercase = /[A-Z]/;
+    const hasLowercase = /[a-z]/;
+    const hasNumber = /\d/;
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+    // Function to validate the password
+    function validatePassword() {
+        const password = newPasswordInput.value;
+        const confirmPassword = renewPasswordInput.value;
+        let feedbackMessage = '';
+
+        // Validate password against criteria
+        let isValid = true;
+        let validCriteriaCount = 0;
+
+        if (minLength.test(password)) {
+            validCriteriaCount++;
+        } else {
+            isValid = false;
+        }
+
+        if (hasUppercase.test(password)) {
+            validCriteriaCount++;
+        } else {
+            isValid = false;
+        }
+
+        if (hasLowercase.test(password)) {
+            validCriteriaCount++;
+        } else {
+            isValid = false;
+        }
+
+        if (hasNumber.test(password)) {
+            validCriteriaCount++;
+        } else {
+            isValid = false;
+        }
+
+        if (hasSpecialChar.test(password)) {
+            validCriteriaCount++;
+        } else {
+            isValid = false;
+        }
+
+        // Check if the password matches the confirmation
+        if (password !== confirmPassword) {
+            isValid = false;
+            feedbackMessage = 'Passwords do not match';
+        } else if (validCriteriaCount === 5) {
+            feedbackMessage = 'Password is strong!';
+        } else {
+            feedbackMessage = 'Password does not meet all criteria';
+        }
+
+        // Update feedback message and color
+        if (validCriteriaCount === 5 && password === confirmPassword) {
+            feedbackMessage = 'Password is strong!';
+            newPasswordInput.classList.add('valid');
+            newPasswordInput.classList.remove('invalid');
+            submitButton.disabled = false;
+        } else {
+            newPasswordInput.classList.add('invalid');
+            newPasswordInput.classList.remove('valid');
+            submitButton.disabled = true;
+        }
+
+        passwordFeedback.textContent = feedbackMessage;
+    }
+
+    // Event listeners
+    newPasswordInput.addEventListener('input', validatePassword);
+    renewPasswordInput.addEventListener('input', validatePassword);
+
+
+    
 
 </script>
 

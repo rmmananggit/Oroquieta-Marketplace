@@ -2,22 +2,7 @@
 include("./includes/authentication.php");
 include("./includes/header.php");
 include("./includes/topbar.php");
-include("./includes/sidebar.php");
 ?>
-
-
-<div class="pagetitle">
-      <h1>Profile</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Users</li>
-          <li class="breadcrumb-item active">Profile</li>
-        </ol>
-      </nav>
-</div><!-- End Page Title -->
-
-
 <section class="section profile">
       <div class="row">
         <div class="col-xl-4">
@@ -351,48 +336,45 @@ include("./includes/sidebar.php");
 
                     <div class="tab-pane fade pt-3" id="profile-change-password">
                     <!-- Change Password Form -->
+                    <form method="POST" action="./controller/change_password.php">
+                            <div class="row mb-3">
+                                <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="password" type="password" class="form-control" id="currentPassword" required>
+                                </div>
+                            </div>
 
+                            <div class="row mb-3">
+                                <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="newpassword" type="password" class="form-control" id="newPassword" required>
+                                </div>
+                            </div>
 
-                      <form method="POST" action="./controller/change_password.php">
-                          <div class="row mb-3">
-                              <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                              <div class="col-md-8 col-lg-9">
-                                  <input name="password" type="password" class="form-control" id="currentPassword" required>
-                              </div>
-                          </div>
+                            <div class="row mb-3">
+                                <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                <div class="col-md-8 col-lg-9">
+                                    <input name="renewpassword" type="password" class="form-control" id="renewPassword" required>
+                                </div>
+                            </div>
 
-                          <div class="row mb-3">
-                              <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                              <div class="col-md-8 col-lg-9">
-                                  <input name="newpassword" type="password" class="form-control" id="newPassword" required>
-                                  <small id="passwordFeedback" class="form-text text-muted"></small>
-                              </div>
-                          </div>
+                            <!-- Password Criteria Description -->
+                            <div class="row mb-3">
+                                <div class="col-md-8 col-lg-9 offset-md-4 offset-lg-3">
+                                    <p class="text-muted">
+                                        <strong>Password Criteria:</strong><br>
+                                        - At least 8 characters long<br>
+                                        - Contains both uppercase and lowercase letters<br>
+                                        - Includes at least one number<br>
+                                        - May include special characters (e.g., @, #, $, etc.)
+                                    </p>
+                                </div>
+                            </div>
 
-                          <div class="row mb-3">
-                              <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                              <div class="col-md-8 col-lg-9">
-                                  <input name="renewpassword" type="password" class="form-control" id="renewPassword" required>
-                              </div>
-                          </div>
-
-                          <!-- Password Criteria Description -->
-                          <div class="row mb-3">
-                              <div class="col-md-8 col-lg-9 offset-md-4 offset-lg-3">
-                                  <p class="text-muted">
-                                      <strong>Password Criteria:</strong><br>
-                                      - At least 8 characters long<br>
-                                      - Contains both uppercase and lowercase letters<br>
-                                      - Includes at least one number<br>
-                                      - May include special characters (e.g., @, #, $, etc.)
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="text-center">
-                              <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Change Password</button>
-                          </div>
-                      </form>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </div>
+                        </form>
 
 
                 </div>

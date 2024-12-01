@@ -73,3 +73,5 @@
   </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
+
+<main id="main" class="main">

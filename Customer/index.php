@@ -4,587 +4,290 @@ include("./includes/header.php");
 include("./includes/topbar.php");
 ?>
 
-<style type="text/css">
-    	body{margin-top:20px;
-background:#f1f2f7;
-}
+<style>
+    /* Background color classes */
+  .bg-white {
+    background-color: #ffffff !important;
+  }
+  .bg-grey {
+    background-color: #eeeeee !important;
+  }
+  .bg-black {
+    background-color: #555555 !important;
+  }
+  .bg-red {
+    background-color: #f75353 !important;
+  }
+  .bg-green {
+    background-color: #51d466 !important;
+  }
+  .bg-lblue {
+    background-color: #32c8de !important;
+  }
+  .bg-blue {
+    background-color: #609cec !important;
+  }
+  .bg-orange {
+    background-color: #f78153 !important;
+  }
+  .bg-yellow {
+    background-color: #fcd419 !important;
+  }
+  .bg-purple {
+    background-color: #cb79e6 !important;
+  }
+  .bg-rose {
+    background-color: #ff61e7 !important;
+  }
+  .bg-brown {
+    background-color: #d08166 !important;
+  }
 
-/*panel*/
-.panel {
-    border: none;
-    box-shadow: none;
-}
-
-.panel-heading {
-    border-color:#eff2f7 ;
-    font-size: 16px;
-    font-weight: 300;
-}
-
-.panel-title {
-    color: #2A3542;
-    font-size: 14px;
-    font-weight: 400;
-    margin-bottom: 0;
-    margin-top: 0;
-    font-family: 'Open Sans', sans-serif;
-}
-
-
-/*product list*/
-
-.prod-cat li a{
-    border-bottom: 1px dashed #d9d9d9;
-}
-
-.prod-cat li a {
-    color: #3b3b3b;
-}
-
-.prod-cat li ul {
-    margin-left: 30px;
-}
-
-.prod-cat li ul li a{
-    border-bottom:none;
-}
-.prod-cat li ul li a:hover,.prod-cat li ul li a:focus, .prod-cat li ul li.active a , .prod-cat li a:hover,.prod-cat li a:focus, .prod-cat li a.active{
-    background: none;
-    color: #ff7261;
-}
-
-.pro-lab{
-    margin-right: 20px;
-    font-weight: normal;
-}
-
-.pro-sort {
-    padding-right: 20px;
-    float: left;
-}
-
-.pro-page-list {
-    margin: 5px 0 0 0;
-}
-
-.product-list img{
-    width: 100%;
-    border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
-}
-
-.product-list .pro-img-box {
+  /* Button classes */
+  .btn {
+      border-radius: 2px;
     position: relative;
-}
-.adtocart {
-    background: #fc5959;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    color: #fff;
-    display: inline-block;
+  }
+  .btn.btn-no-border {
+    border: 0px !important;
+  }
+  /* Button colors */
+  .btn.btn-white {
+    background: #ffffff;
+    color: #666666;
+    border: 1px solid #dddddd;
+  }
+  .btn.btn-white:hover,
+  .btn.btn-white:focus,
+  .btn.btn-white.active,
+  .btn.btn-white:active {
+    background: #f7f7f7;
+    color: #666666;
+  }
+  .btn.btn-grey {
+    background: #eeeeee;
+    color: #666666;
+    border: 1px solid #d5d5d5;
+  }
+  .btn.btn-grey:hover,
+  .btn.btn-grey:focus,
+  .btn.btn-grey.active,
+  .btn.btn-grey:active {
+    background: #d5d5d5;
+    color: #999;
+  }
+  .btn.btn-black {
+    color: #ffffff;
+    background: #666666;
+    border: 1px solid #4d4d4d;
+  }
+  .btn.btn-black:hover,
+  .btn.btn-black:focus,
+  .btn.btn-black.active,
+  .btn.btn-black:active {
+    background: #4d4d4d;
+    color: #ffffff;
+  }
+  .btn.btn-red {
+    color: #ffffff;
+    background: #ed5441;
+    border: 1px solid #e52d16;
+  }
+  .btn.btn-red:hover,
+  .btn.btn-red:focus,
+  .btn.btn-red.active,
+  .btn.btn-red:active {
+    color: #ffffff;
+    background: #e52d16;
+  }
+  .btn.btn-green {
+    color: #ffffff;
+    background: #51d466;
+    border: 1px solid #30c247;
+  }
+  .btn.btn-green:hover,
+  .btn.btn-green:focus,
+  .btn.btn-green.active,
+  .btn.btn-green:active {
+    background: #30c247;
+    color: #ffffff;
+  }
+  .btn.btn-lblue {
+    color: #ffffff;
+    background: #32c8de;
+    border: 1px solid #1faabe;
+  }
+  .btn.btn-lblue:hover,
+  .btn.btn-lblue:focus,
+  .btn.btn-lblue.active,
+  .btn.btn-lblue:active {
+    background: #1faabe;
+    color: #ffffff;
+  }
+  .btn.btn-blue {
+    color: #ffffff;
+    background: #609cec;
+    border: 1px solid #3280e7;
+  }
+  .btn.btn-blue:hover,
+  .btn.btn-blue:focus,
+  .btn.btn-blue.active,
+  .btn.btn-blue:active {
+    background: #3280e7;
+    color: #ffffff;
+  }
+  .btn.btn-orange {
+    color: #ffffff;
+    background: #f8a841;
+    border: 1px solid #f69110;
+  }
+  .btn.btn-orange:hover,
+  .btn.btn-orange:focus,
+  .btn.btn-orange.active,
+  .btn.btn-orange:active {
+    background: #f69110;
+    color: #ffffff;
+  }
+  .btn.btn-yellow {
+    background: #fcd419;
+    color: #ffffff;
+    border: 1px solid #dfb803;
+  }
+  .btn.btn-yellow:hover,
+  .btn.btn-yellow:focus,
+  .btn.btn-yellow.active,
+  .btn.btn-yellow:active {
+    background: #dfb803;
+    color: #ffffff;
+  }
+  .btn.btn-purple {
+    background: #cb79e6;
+    color: #ffffff;
+    border: 1px solid #ba4ede;
+  }
+  .btn.btn-purple:hover,
+  .btn.btn-purple:focus,
+  .btn.btn-purple.active,
+  .btn.btn-purple:active {
+    background: #ba4ede;
+    color: #ffffff;
+  }
+  .btn.btn-rose {
+    background: #ff61e7;
+    color: #ffffff;
+    border: 1px solid #ff2edf;
+  }
+  .btn.btn-rose:hover,
+  .btn.btn-rose:focus,
+  .btn.btn-rose.active,
+  .btn.btn-rose:active {
+    background: #ff2edf;
+    color: #ffffff;
+  }
+  .btn.btn-brown {
+    background: #d08166;
+    color: #ffffff;
+    border: 1px solid #c4613f;
+  }
+  .btn.btn-brown:hover,
+  .btn.btn-brown:focus,
+  .btn.btn-brown.active,
+  .btn.btn-brown:active {
+    background: #c4613f;
+    color: #ffffff;
+  }
+
+  .shop-items{
+    max-width:1150px;
+    margin:10px auto;
+    padding:0px 20px;
+  }
+  .shop-items .item {
+    position: relative;
+    max-width: 360px;
+    margin: 15px auto;
+    padding: 5px;
     text-align: center;
-    border: 3px solid #fff;
-    left: 45%;
-    bottom: -25px;
-    position: absolute;
-}
-
-.adtocart i{
-    color: #fff;
-    font-size: 25px;
-    line-height: 42px;
-}
-
-.pro-title {
-    color: #5A5A5A;
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-.product-list .price {
-    color:#fc5959 ;
-    font-size: 15px;
-}
-
-.pro-img-details {
-    margin-left: -15px;
-}
-
-.pro-img-details img {
+    border-radius: 4px;
+    overflow: hidden;
+    border:2px solid #eee;
+  }
+  .shop-items .item:hover{	
+    border:2px solid #32c8de;
+  }
+  .shop-items .item img {
     width: 100%;
-}
-
-.pro-d-title {
-    font-size: 16px;
-    margin-top: 0;
-}
-
-.product_meta {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-    margin: 15px 0;
-}
-
-.product_meta span {
+    max-width: 360px;
+    margin: 0 auto;
+    border: 1px solid #eee;
+    border-radius: 3px;
+  }
+  .shop-items .item  .item-dtls h4 {
+    margin-top: 13px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .shop-items .item  .item-dtls .price {
     display: block;
-    margin-bottom: 10px;
-}
-.product_meta a, .pro-price{
-    color:#fc5959 ;
-}
-
-.pro-price, .amount-old {
-    font-size: 18px;
-    padding: 0 10px;
-}
-
-.amount-old {
-    text-decoration: line-through;
-}
-
-.quantity {
-    width: 120px;
-}
-
-.pro-img-list {
-    margin: 10px 0 0 -15px;
+    margin-bottom: 13px;
+    font-size: 25px;
+  }
+  .shop-items .item  .ecom {
+    position: absolute;
+    top: 100%;
+    left: 0;
     width: 100%;
-    display: inline-block;
-}
+    padding-bottom:10px;
+    padding-top: 10px;
+    -webkit-transition: all 0.35s ease-in;
+    -moz-transition: all 0.35s ease-in;
+    -ms-transition: all 0.35s ease-in;
+    -o-transition: all 0.35s ease-in;
+    transition: all 0.35s ease-in;
+  }
+  .shop-items .item:hover  .ecom { 
+    margin-top: -50px; 
+  }
+  .shop-items .item  .ecom  a.btn{
+    border:1px solid #fff;
+    color:#fff;
+    background:transparent;
+    -webkit-transition: all 0.35s ease-in;
+    -moz-transition: all 0.35s ease-in;
+    -ms-transition: all 0.35s ease-in;
+    -o-transition: all 0.35s ease-in;
+    transition: all 0.35s ease-in;
+  }
+  .shop-items .item  .ecom  a.btn:hover{
+    background:#fff;
+    color:#777;
+  }     
+</style>
 
-.pro-img-list a {
-    float: left;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-.pro-d-head {
-    font-size: 18px;
-    font-weight: 300;
-}
-    </style>
-
-<main id="main" class="main">
-
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-<div class="container bootdey">
-    <div class="col-md-3">
-        <section class="panel">
-            <div class="panel-body">
-                <input type="text" placeholder="Keyword Search" class="form-control" />
+<div class="shop-items">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3 col-sm-6">
+            <!-- Restaurant Item -->
+            <div class="item">
+              <!-- Item's image -->
+              <img class="img-responsive" src="https://www.bootdey.com/image/200x200/5F9EA0/000000" alt="">
+              <!-- Item details -->
+              <div class="item-dtls">
+                <!-- product title -->
+                <h4><a href="#">Lorem product</a></h4>
+                <!-- price -->
+                <span class="price lblue">$23.00</span>
+              </div>
+              <!-- add to cart btn -->
+              <div class="ecom bg-lblue">
+                <a class="btn" href="#">Add to cart</a>
+              </div>
             </div>
-        </section>
-        <section class="panel">
-            <header class="panel-heading">
-                Category
-            </header>
-            <div class="panel-body">
-                <ul class="nav prod-cat">
-                  
-                </ul>
-            </div>
-        </section>
-        <section class="panel">
-            <header class="panel-heading">
-                Price Range
-            </header>
-            <div class="panel-body sliders">
-                <div id="slider-range" class="slider"></div>
-                <div class="slider-info">
-                    <span id="slider-range-amount"></span>
-                </div>
-            </div>
-        </section>
-        <section class="panel">
-            <header class="panel-heading">
-                Filter
-            </header>
-            <div class="panel-body">
-                <form role="form product-form">
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-                            <option>Wallmart</option>
-                            <option>Catseye</option>
-                            <option>Moonsoon</option>
-                            <option>Textmart</option>
-                        </select>
-                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">Wallmart</span></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Color</label>
-                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-                            <option>White</option>
-                            <option>Black</option>
-                            <option>Red</option>
-                            <option>Green</option>
-                        </select>
-                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">White</span></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Type</label>
-                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
-                            <option>Small</option>
-                            <option>Medium</option>
-                            <option>Large</option>
-                            <option>Extra Large</option>
-                        </select>
-                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">Small</span></span>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                </form>
-            </div>
-        </section>
-        <section class="panel">
-            <header class="panel-heading">
-                Best Seller
-            </header>
-            <div class="panel-body">
-                <div class="best-seller">
-                    <article class="media">
-                        <a class="pull-left thumb p-thumb">
-                            <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" />
-                        </a>
-                        <div class="media-body">
-                            <a href="#" class="p-head">Item One Tittle</a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </article>
-                    <article class="media">
-                        <a class="pull-left thumb p-thumb">
-                            <img src="https://www.bootdey.com/image/250x220/A2BE2/000000" />
-                        </a>
-                        <div class="media-body">
-                            <a href="#" class="p-head">Item Two Tittle</a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </article>
-                    <article class="media">
-                        <a class="pull-left thumb p-thumb">
-                            <img src="https://www.bootdey.com/image/250x220/6495ED/000000" />
-                        </a>
-                        <div class="media-body">
-                            <a href="#" class="p-head">Item Three Tittle</a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-9">
-        <section class="panel">
-            <div class="panel-body">
-                <div class="pull-right">
-                    <ul class="pagination pagination-sm pro-page-list">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <div class="row product-list">
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/6495ED/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/FF7F50/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/00BFFF/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/00CED1/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/9400D3/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/FFD700/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/ADD8E6/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/20B2AA/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/3CB371/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/C71585/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/191970/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/87CEEB/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
-            <div class="col-md-4">
-                <section class="panel">
-                    <div class="pro-img-box">
-                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
-                        <a href="#" class="adtocart">
-                            <i class="fa fa-shopping-cart"></i>
-                        </a>
-                    </div>
-
-                    <div class="panel-body text-center">
-                        <h4>
-                            <a href="#" class="pro-title">
-                                Leopard Shirt Dress
-                            </a>
-                        </h4>
-                        <p class="price">$300.00</p>
-                    </div>
-                </section>
-            </div>
+          </div>
         </div>
     </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	
-</script>
+</div>       
 
 
 <?php

@@ -67,6 +67,40 @@ h6 {
   color: #012970;
 }
 
+.valid {
+  color: green;
+  animation: validAnimation 0.3s ease-in-out;
+}
+
+.invalid {
+  color: red;
+  animation: invalidAnimation 0.3s ease-in-out;
+}
+
+@keyframes validAnimation {
+  0% {
+      background-color: white;
+  }
+  50% {
+      background-color: #d4f7d4;
+  }
+  100% {
+      background-color: white;
+  }
+}
+
+@keyframes invalidAnimation {
+  0% {
+      background-color: white;
+  }
+  50% {
+      background-color: #f7d4d4;
+  }
+  100% {
+      background-color: white;
+  }
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/

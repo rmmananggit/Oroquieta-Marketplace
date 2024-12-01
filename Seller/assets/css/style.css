@@ -1233,6 +1233,40 @@ h6 {
     flex: 1; /* Makes buttons equal in size */
 }
 
+.valid {
+  color: green;
+  animation: validAnimation 0.3s ease-in-out;
+}
+
+.invalid {
+  color: red;
+  animation: invalidAnimation 0.3s ease-in-out;
+}
+
+@keyframes validAnimation {
+  0% {
+      background-color: white;
+  }
+  50% {
+      background-color: #d4f7d4;
+  }
+  100% {
+      background-color: white;
+  }
+}
+
+@keyframes invalidAnimation {
+  0% {
+      background-color: white;
+  }
+  50% {
+      background-color: #f7d4d4;
+  }
+  100% {
+      background-color: white;
+  }
+}
+
 @media (min-width: 992px) {
   .error-404 img {
     max-width: 50%;
