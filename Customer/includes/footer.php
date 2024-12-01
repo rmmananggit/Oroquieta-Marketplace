@@ -43,6 +43,7 @@
   <script src="assets/vendor/quill/quill.js"></script>
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
@@ -150,7 +151,259 @@ document.addEventListener('DOMContentLoaded', () => {
     phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 9);
   });
 });
+
+$(document).ready(function () {
+    $(".view-product-details").on("click", function () {
+        const productId = $(this).data("id");
+
+        // Clear previous content
+        $("#productDetailsContent").html("<p>Loading...</p>");
+
+        // Fetch product details
+        $.ajax({
+            url: "./controller/get-product-details.php",
+            type: "GET",
+            data: { id: productId },
+            success: function (response) {
+                const data = JSON.parse(response);
+
+                if (data.success) {
+                    const product = data.product;
+                    const images = data.images;
+
+                    // Generate images grid
+                    const imagesHtml = images
+                        .map(img => `<img src="${img}" class="product-image" alt="Product Image">`)
+                        .join("");
+
+                    // Populate modal content
+                    $("#productDetailsContent").html(`
+                        <p><strong>Name:</strong> ${product.name}</p>
+                        <p><strong>Description:</strong> ${product.description}</p>
+                        <p><strong>Price:</strong> ₱${product.price}</p>
+                        <p><strong>Category:</strong> ${product.categoryName}</p>
+                        <p><strong>Quantity:</strong> ${product.quantity}</p>
+                        <div class="images-container">${imagesHtml}</div>
+                    `);
+                } else {
+                    $("#productDetailsContent").html("<p>Product details could not be loaded.</p>");
+                }
+            },
+            error: function () {
+                $("#productDetailsContent").html("<p>An error occurred while loading product details.</p>");
+            },
+        });
+    });
+});
+
+  function viewCustomerDetails(userId) {
+    $.ajax({
+        url: './controller/view_customer_details.php',  // Correct path to the PHP file
+        method: 'GET',
+        data: { id: 3 },  // Passing the user_id for the customer you want to view
+        success: function(response) {
+            console.log("AJAX Response:", response);  // Log the raw response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse JSON response
+                if (data.success) {
+                    // If success, display customer details in the modal
+                    let customer = data.data;
+
+                    // Format the registration_date to 12-hour AM/PM format
+                    let registrationDate = new Date(customer.registration_date);
+                    let options = {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    };
+                    let formattedDate = registrationDate.toLocaleString('en-US', options);
+
+                    let customerDetails = `
+                        <p><strong>Username:</strong> ${customer.username}</p>
+                        <p><strong>Email:</strong> ${customer.email}</p>
+                        <p><strong>Phone:</strong> ${customer.phone_number}</p>
+                        <p><strong>Address:</strong> ${customer.address_street}, ${customer.address_baranggay}, ${customer.address_city}</p>
+                        <p><strong>Birthday:</strong> ${customer.date_of_birth}</p>
+                        <p><strong>Date Registered:</strong> ${formattedDate}</p> <!-- Use formatted date -->
+                        <p><strong>Status:</strong> ${customer.account_status}</p>
+                    `;
+                    $('#customer-details').html(customerDetails);  // Update the modal content with customer data
+
+                    // Show the modal (ensure you have modal-related JS functionality)
+                    $('#customerModal').modal('show');
+                } else {
+                    $('#customer-details').html('<p>' + data.message + '</p>');  // Show error message if no customer found
+                    $('#customerModal').modal('show');
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                $('#customer-details').html('<p>Error processing the data.</p>');
+                $('#customerModal').modal('show');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            $('#customer-details').html('<p>Error processing your request.</p>');
+            $('#customerModal').modal('show');
+        }
+    });
+}
+
+// Edit Category
+function openEditModal(categoryId) {
+    $.ajax({
+        url: './controller/fetch_category_details.php',  // This is the PHP file that fetches category data by ID
+        method: 'GET',
+        data: { id: categoryId },
+        success: function(response) {
+            console.log("AJAX Response:", response);  // Log the response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse the JSON response
+                if (data.success) {
+                    // Populate modal form fields with category data
+                    $('#categoryId').val(data.data.id);
+                    $('#categoryName').val(data.data.name);
+                    $('#categoryDescription').val(data.data.description);
+                    
+                    // Show the modal
+                    $('#editCategoryModal').modal('show');
+                } else {
+                    alert("Failed to fetch category details.");
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                alert('Error fetching category details.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            alert('Error fetching category details.');
+        }
+    });
+}
+
+
+// Handle Category Update Submission
+$('#editCategoryForm').on('submit', function(e) {
+    e.preventDefault();  // Prevent the default form submission
+
+    var formData = $(this).serialize();  // Serialize the form data
+
+    $.ajax({
+        url: './controller/update_category.php',  // PHP script to update the category
+        method: 'POST',
+        data: formData,
+        success: function(response) {
+            console.log("Update Response:", response);  // Log the response for debugging
+            try {
+                const data = JSON.parse(response);  // Parse JSON response
+                if (data.success) {
+                    // Show success Toaster message with consistent format
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,  // Message from the PHP response
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+
+                    // Close the modal after success
+                    $('#editCategoryModal').modal('hide');  // Close the modal
+
+                    // Reload the page after 2 seconds to show the updated category
+                    setTimeout(function() {
+                        location.reload();  // Reload the page
+                    }, 2000);
+                } else {
+                    // Show error Toaster message with consistent format
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.message,  // Error message from PHP
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);  // Log error if JSON parsing fails
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error updating category.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', status, error);  // Log any AJAX error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error updating category.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+        }
+    });
+});
+
+
+$(document).on('click', '.delete-category', function () {
+    const categoryId = $(this).data('id');
+    const categoryName = $(this).data('name');
+
+    // Update modal content
+    $('#deletecategoryName').text(categoryName);
+    $('#deletecategoryId').val(categoryId);  // Ensure the ID is correctly set
+
+    // Show the modal
+    $('#deleteConfirmationModal').modal('show');
+});
+
+    function previewImage(event) {
+        const file = event.target.files[0]; // Get the selected file
+        const reader = new FileReader(); // Create a FileReader to read the file
+
+        reader.onload = function(e) {
+            const preview = document.getElementById('profileImagePreview'); // Get the image element
+            preview.src = e.target.result; // Set the src to the file's data URL
+        };
+
+        if (file) {
+            reader.readAsDataURL(file); // Read the file as a data URL
+        }
+    }
+
 </script>
+
 
 </body>
 

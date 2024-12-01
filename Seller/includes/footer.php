@@ -188,13 +188,100 @@ document.addEventListener('DOMContentLoaded', () => {
         const productId = $(this).data('id');
         const productName = $(this).data('name');
 
-        // Update modal content
+
         $('#deleteProductName').text(productName);
         $('#deleteProductId').val(productId);
 
-        // Show the modal
+
         $('#deleteConfirmationModal').modal('show');
     });
+
+// Delete Images
+    document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('delete-image') || event.target.classList.contains('set-primary')) {
+        const action = event.target.classList.contains('delete-image') ? 'delete' : 'set_primary';
+        const imageId = event.target.getAttribute('data-id');
+        const productId = document.querySelector('.edit-image[data-id]').getAttribute('data-id'); // Get product_id
+
+        fetch('./controller/update-product-images.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `action=${action}&image_id=${imageId}&product_id=${productId}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Optionally display a success message or handle the data
+            // Example: Update UI with status message
+            const statusMessage = document.getElementById('status-message');
+            if (statusMessage) {
+                statusMessage.textContent = data; // Display success/failure message
+            }
+
+            // Reload images in modal (as you were doing before)
+            document.querySelector(`.edit-image[data-id="${productId}"]`).click();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+// Fetch Images
+document.addEventListener('DOMContentLoaded', function () {
+    const editImageButtons = document.querySelectorAll('.edit-image');
+
+    editImageButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-id');
+            const imageContent = document.getElementById('productImageContent');
+
+            // Clear previous content
+            imageContent.innerHTML = '<p>Loading images...</p>';
+
+            // Fetch images
+            fetch(`./controller/fetch-product-images.php?product_id=${productId}`)
+                .then(response => response.text())
+                .then(data => {
+                    imageContent.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error fetching images:', error);
+                    imageContent.innerHTML = '<p class="text-danger">Failed to load images. Please try again.</p>';
+                });
+        });
+    });
+});
+
+// Fetch Details
+document.addEventListener('DOMContentLoaded', function () {
+    const editLinks = document.querySelectorAll('.edit-product');
+
+    editLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            const productId = this.getAttribute('data-id');
+            
+            fetch(`./controller/edit-product-details.php?product_id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        document.getElementById('editProductId').value = data.product_id;
+                        document.getElementById('editProductName').value = data.name;
+                        document.getElementById('editDescription').value = data.description;
+                        document.getElementById('editPrice').value = data.price;
+                        document.getElementById('editCategory').value = data.category;
+                        document.getElementById('editQuantity').value = data.quantity;
+                    } else {
+                        alert('Error: Product details not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching product details:', error);
+                    alert('Error fetching product details');
+                });
+        });
+    });
+});
+
+
+
 </script>
 
 

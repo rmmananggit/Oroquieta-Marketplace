@@ -287,65 +287,66 @@ include("./includes/sidebar.php");
         <div class="col-lg-4">
 
               
-      <div class="card">
-          <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-              <div class="activity">
-                  <?php
-                  date_default_timezone_set('Asia/Manila');
-                  include("../config/config.php");
+        <div class="card">
+                  <div class="card-body">
+                <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+                <div class="activity">
+                    <?php
+                    date_default_timezone_set('Asia/Manila');
+                    include("../config/config.php");
 
-                  // Fetch the latest 4 recent activities
-                  $query = "SELECT ra.activity_type, ra.description, ra.created_at, u.username 
-                            FROM recent_activities ra
-                            INNER JOIN users u ON ra.user_id = u.user_id
-                            ORDER BY ra.created_at DESC
-                            LIMIT 4";
-                  $query_run = mysqli_query($con, $query);
+                    // Fetch the latest 4 recent activities
+                    $query = "SELECT ra.activity_type, ra.description, ra.created_at, u.first_name, u.last_name
+                              FROM recent_activities ra
+                              INNER JOIN users u ON ra.user_id = u.user_id
+                              ORDER BY ra.created_at DESC
+                              LIMIT 4";
+                    $query_run = mysqli_query($con, $query);
 
-                  if ($query_run && mysqli_num_rows($query_run) > 0) {
-                      while ($activity = mysqli_fetch_assoc($query_run)) {
-                          // Calculate time elapsed
-                          $created_at = new DateTime($activity['created_at']);
-                          $now = new DateTime();
-                          $elapsed = $created_at->diff($now);
-                          
-                          if ($elapsed->d > 0) {
-                              $time_label = $elapsed->d . " day" . ($elapsed->d > 1 ? "s" : "");
-                          } elseif ($elapsed->h > 0) {
-                              $time_label = $elapsed->h . " hr" . ($elapsed->h > 1 ? "s" : "");
-                          } elseif ($elapsed->i > 0) {
-                              $time_label = $elapsed->i . " min";
-                          } else {
-                              $time_label = "Just now";
-                          }
+                    if ($query_run && mysqli_num_rows($query_run) > 0) {
+                        while ($activity = mysqli_fetch_assoc($query_run)) {
+                            // Calculate time elapsed
+                            $created_at = new DateTime($activity['created_at']);
+                            $now = new DateTime();
+                            $elapsed = $created_at->diff($now);
+                            
+                            if ($elapsed->d > 0) {
+                                $time_label = $elapsed->d . " day" . ($elapsed->d > 1 ? "s" : "");
+                            } elseif ($elapsed->h > 0) {
+                                $time_label = $elapsed->h . " hr" . ($elapsed->h > 1 ? "s" : "");
+                            } elseif ($elapsed->i > 0) {
+                                $time_label = $elapsed->i . " min";
+                            } else {
+                                $time_label = "Just now";
+                            }
 
-                          // Dynamic badge colors based on activity type
-                          $badge_color = match ($activity['activity_type']) {
-                              "New Listing" => "text-success",
-                              "Updated Listing" => "text-primary",
-                              "Deleted Listing" => "text-danger",
-                              default => "text-muted",
-                          };
-                  ?>
-                          <div class="activity-item d-flex">
-                              <div class="activite-label"><?= $time_label; ?></div>
-                              <i class="bi bi-circle-fill activity-badge <?= $badge_color; ?> align-self-start"></i>
-                              <div class="activity-content">
-                                  <?= htmlspecialchars($activity['activity_type']); ?>: 
-                                  <a href="#" class="fw-bold text-dark"><?= htmlspecialchars($activity['description']); ?></a>
-                                  by <?= htmlspecialchars($activity['username']); ?>
-                              </div>
-                          </div><!-- End activity item -->
-                  <?php
-                      }
-                  } else {
-                      echo "<p>No recent activities found.</p>";
-                  }
-                  ?>
-              </div>
-          </div>
-      </div>
+                            // Dynamic badge colors based on activity type
+                            $badge_color = match ($activity['activity_type']) {
+                                "New Listing" => "text-success",
+                                "Updated Listing" => "text-primary",
+                                "Deleted Listing" => "text-danger",
+                                default => "text-muted",
+                            };
+                    ?>
+                            <div class="activity-item d-flex">
+                                <div class="activite-label"><?= $time_label; ?></div>
+                                <i class="bi bi-circle-fill activity-badge <?= $badge_color; ?> align-self-start"></i>
+                                <div class="activity-content">
+                                    <?= htmlspecialchars($activity['activity_type']); ?>: 
+                                    <a href="#" class="fw-bold text-dark"><?= htmlspecialchars($activity['description']); ?></a>
+                                    by <?= htmlspecialchars($activity['first_name']) . ' ' . htmlspecialchars($activity['last_name']); ?>
+                                </div>
+                            </div><!-- End activity item -->
+                    <?php
+                        }
+                    } else {
+                        echo "<p>No recent activities found.</p>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+
 
 
           <!-- Budget Report -->

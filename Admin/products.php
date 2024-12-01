@@ -6,7 +6,7 @@ include("./includes/sidebar.php");
 ?>
 
 <div class="pagetitle">
-    <h1>My Listings</h1>
+    <h1>Current Listings</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Dashboard</li>

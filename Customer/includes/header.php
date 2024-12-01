@@ -29,13 +29,27 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+
 </head>
+
+<style>
+.images-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
+    gap: 15px; /* Space between images */
+    justify-items: center; /* Center align images in each cell */
+}
+.product-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; /* Ensure images are proportionally cropped */
+    border: 1px solid #ddd; /* Optional border for visual clarity */
+    border-radius: 4px; /* Optional rounded corners */
+}
+</style>
+
+
 
 <body>

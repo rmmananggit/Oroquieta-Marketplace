@@ -1,4 +1,5 @@
 <?php
+session_start();
 include(__DIR__ . '/../config/config.php');
 
 if (isset($_GET['id'])) {

@@ -19,6 +19,7 @@ body {
   color: #444444;
 }
 
+
 a {
   color: #4154f1;
   text-decoration: none;
@@ -1202,6 +1203,34 @@ h6 {
 
 .error-404 .btn:hover {
   background: #3e4f6f;
+}
+
+   /* Ensure images have the same height and width */
+   #productImageContent img {
+    width: 100%;
+    height: auto;
+    max-height: 150px; /* Optional: Set a maximum height */
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Flex container for buttons */
+#productImageContent .btn-group {
+    display: flex;
+    justify-content: center; /* Center align the buttons */
+    gap: 10px; /* Add space between buttons */
+}
+
+/* Ensure buttons have the same height */
+#productImageContent .btn {
+    height: 40px; /* Uniform button height */
+    line-height: 40px; /* Align text vertically */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1; /* Makes buttons equal in size */
 }
 
 @media (min-width: 992px) {

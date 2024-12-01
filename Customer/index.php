@@ -2,652 +2,590 @@
 include("./includes/authentication.php");
 include("./includes/header.php");
 include("./includes/topbar.php");
-include("./includes/sidebar.php");
 ?>
 
-<div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+<style type="text/css">
+    	body{margin-top:20px;
+background:#f1f2f7;
+}
 
-      <section class="section dashboard">
-      <div class="row">
+/*panel*/
+.panel {
+    border: none;
+    box-shadow: none;
+}
 
-        <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
+.panel-heading {
+    border-color:#eff2f7 ;
+    font-size: 16px;
+    font-weight: 300;
+}
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+.panel-title {
+    color: #2A3542;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-family: 'Open Sans', sans-serif;
+}
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+/*product list*/
+
+.prod-cat li a{
+    border-bottom: 1px dashed #d9d9d9;
+}
+
+.prod-cat li a {
+    color: #3b3b3b;
+}
+
+.prod-cat li ul {
+    margin-left: 30px;
+}
+
+.prod-cat li ul li a{
+    border-bottom:none;
+}
+.prod-cat li ul li a:hover,.prod-cat li ul li a:focus, .prod-cat li ul li.active a , .prod-cat li a:hover,.prod-cat li a:focus, .prod-cat li a.active{
+    background: none;
+    color: #ff7261;
+}
+
+.pro-lab{
+    margin-right: 20px;
+    font-weight: normal;
+}
+
+.pro-sort {
+    padding-right: 20px;
+    float: left;
+}
+
+.pro-page-list {
+    margin: 5px 0 0 0;
+}
+
+.product-list img{
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+}
+
+.product-list .pro-img-box {
+    position: relative;
+}
+.adtocart {
+    background: #fc5959;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    border: 3px solid #fff;
+    left: 45%;
+    bottom: -25px;
+    position: absolute;
+}
+
+.adtocart i{
+    color: #fff;
+    font-size: 25px;
+    line-height: 42px;
+}
+
+.pro-title {
+    color: #5A5A5A;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.product-list .price {
+    color:#fc5959 ;
+    font-size: 15px;
+}
+
+.pro-img-details {
+    margin-left: -15px;
+}
+
+.pro-img-details img {
+    width: 100%;
+}
+
+.pro-d-title {
+    font-size: 16px;
+    margin-top: 0;
+}
+
+.product_meta {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    margin: 15px 0;
+}
+
+.product_meta span {
+    display: block;
+    margin-bottom: 10px;
+}
+.product_meta a, .pro-price{
+    color:#fc5959 ;
+}
+
+.pro-price, .amount-old {
+    font-size: 18px;
+    padding: 0 10px;
+}
+
+.amount-old {
+    text-decoration: line-through;
+}
+
+.quantity {
+    width: 120px;
+}
+
+.pro-img-list {
+    margin: 10px 0 0 -15px;
+    width: 100%;
+    display: inline-block;
+}
+
+.pro-img-list a {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.pro-d-head {
+    font-size: 18px;
+    font-weight: 300;
+}
+    </style>
+
+<main id="main" class="main">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="container bootdey">
+    <div class="col-md-3">
+        <section class="panel">
+            <div class="panel-body">
+                <input type="text" placeholder="Keyword Search" class="form-control" />
+            </div>
+        </section>
+        <section class="panel">
+            <header class="panel-heading">
+                Category
+            </header>
+            <div class="panel-body">
+                <ul class="nav prod-cat">
+                  
+                </ul>
+            </div>
+        </section>
+        <section class="panel">
+            <header class="panel-heading">
+                Price Range
+            </header>
+            <div class="panel-body sliders">
+                <div id="slider-range" class="slider"></div>
+                <div class="slider-info">
+                    <span id="slider-range-amount"></span>
                 </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+            </div>
+        </section>
+        <section class="panel">
+            <header class="panel-heading">
+                Filter
+            </header>
+            <div class="panel-body">
+                <form role="form product-form">
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option>Wallmart</option>
+                            <option>Catseye</option>
+                            <option>Moonsoon</option>
+                            <option>Textmart</option>
+                        </select>
+                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">Wallmart</span></span>
                     </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option>White</option>
+                            <option>Black</option>
+                            <option>Red</option>
+                            <option>Green</option>
+                        </select>
+                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">White</span></span>
                     </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select class="form-control hasCustomSelect" style="-webkit-appearance: menulist-button; width: 231px; position: absolute; opacity: 0; height: 34px; font-size: 12px;">
+                            <option>Small</option>
+                            <option>Medium</option>
+                            <option>Large</option>
+                            <option>Extra Large</option>
+                        </select>
+                        <span class="customSelect form-control" style="display: inline-block;"><span class="customSelectInner" style="width: 209px; display: inline-block;">Small</span></span>
                     </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </form>
+            </div>
+        </section>
+        <section class="panel">
+            <header class="panel-heading">
+                Best Seller
+            </header>
+            <div class="panel-body">
+                <div class="best-seller">
+                    <article class="media">
+                        <a class="pull-left thumb p-thumb">
+                            <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" />
+                        </a>
+                        <div class="media-body">
+                            <a href="#" class="p-head">Item One Tittle</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </article>
+                    <article class="media">
+                        <a class="pull-left thumb p-thumb">
+                            <img src="https://www.bootdey.com/image/250x220/A2BE2/000000" />
+                        </a>
+                        <div class="media-body">
+                            <a href="#" class="p-head">Item Two Tittle</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </article>
+                    <article class="media">
+                        <a class="pull-left thumb p-thumb">
+                            <img src="https://www.bootdey.com/image/250x220/6495ED/000000" />
+                        </a>
+                        <div class="media-body">
+                            <a href="#" class="p-head">Item Three Tittle</a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-9">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <ul class="pagination pagination-sm pro-page-list">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
+        <div class="row product-list">
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
                     </div>
-                  </div>
-                </div>
 
-              </div>
-            </div><!-- End Revenue Card -->
-
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
                     </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/6495ED/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
                     </div>
-                  </div>
 
-                </div>
-              </div>
-
-            </div><!-- End Customers Card -->
-
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
-                        }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
-
-                </div>
-
-              </div>
-            </div><!-- End Reports -->
-
-            <!-- Recent Sales -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
-
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div><!-- End Recent Sales -->
-
-            <!-- Top Selling -->
-            <div class="col-12">
-              <div class="card top-selling overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
-
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Revenue</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>$64</td>
-                        <td class="fw-bold">124</td>
-                        <td>$5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>$46</td>
-                        <td class="fw-bold">98</td>
-                        <td>$4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>$59</td>
-                        <td class="fw-bold">74</td>
-                        <td>$4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>$32</td>
-                        <td class="fw-bold">63</td>
-                        <td>$2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>$79</td>
-                        <td class="fw-bold">41</td>
-                        <td>$3,239</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div><!-- End Top Selling -->
-
-          </div>
-        </div><!-- End Left side columns -->
-
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/FF7F50/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-            <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
-              <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
-
-              </div>
-
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
-          </div><!-- End Recent Activity -->
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/00BFFF/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-          <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/00CED1/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
-              <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                    legend: {
-                      data: ['Allocated Budget', 'Actual Spending']
-                    },
-                    radar: {
-                      // shape: 'circle',
-                      indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
-                      ]
-                    },
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
-          </div><!-- End Budget Report -->
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/9400D3/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-          <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/FFD700/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
-          </div><!-- End Website Traffic -->
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/ADD8E6/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/20B2AA/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-            <div class="card-body pb-0">
-              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-2.jpg" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-3.jpg" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-4.jpg" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-5.jpg" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                </div>
-
-              </div><!-- End sidebar recent posts-->
-
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
             </div>
-          </div><!-- End News & Updates -->
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/3CB371/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-        </div><!-- End Right side columns -->
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
 
-      </div>
-    </section>
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/C71585/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/191970/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/87CEEB/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
+                        <a href="#" class="adtocart">
+                            <i class="fa fa-shopping-cart"></i>
+                        </a>
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                Leopard Shirt Dress
+                            </a>
+                        </h4>
+                        <p class="price">$300.00</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	
+</script>
+
 
 <?php
 include("./includes/footer.php");

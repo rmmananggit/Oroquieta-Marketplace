@@ -101,30 +101,30 @@ include("./includes/sidebar.php");
                         </thead>
                         <tbody>
                         <?php
-                       $query = "SELECT
-                       product.product_id, 
-                       product.`name`, 
-                       product.description, 
-                       product.price, 
-                       product.category, 
-                       product.quantity, 
-                       product.`status`, 
-                       MIN(product_images.image) AS image, 
-                       categories.`name` AS categoryName
-                   FROM
-                       product
-                   LEFT JOIN
-                       product_images
-                   ON 
-                       product.product_id = product_images.product_id
-                   INNER JOIN
-                       categories
-                   ON 
-                       product.category = categories.id
-                   WHERE
-                       product.vendor_id = $userId
-                   GROUP BY
-                       product.product_id";           
+                            $query = "SELECT
+                            product.product_id, 
+                            product.`name`, 
+                            product.description, 
+                            product.price, 
+                            product.category, 
+                            product.quantity, 
+                            product.`status`, 
+                            product_images.image AS image, 
+                            categories.`name` AS categoryName
+                            FROM
+                            product
+                            LEFT JOIN
+                            product_images
+                            ON 
+                            product.product_id = product_images.product_id AND product_images.is_primary = 1
+                            INNER JOIN
+                            categories
+                            ON 
+                            product.category = categories.id
+                            WHERE
+                            product.vendor_id = $userId
+                            GROUP BY
+                            product.product_id";
                         $query_run = mysqli_query($con, $query);
                         if (!$query_run) {
                             die("Query failed: " . mysqli_error($con));
@@ -169,15 +169,45 @@ include("./includes/sidebar.php");
                                         ?>
                                     </a>
                                 </td>
-                                <td class="text-center">
-                                    <a href="edit_vendor.php?id=<?= $row['product_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="javascript:void(0);" 
-                                    class="btn btn-danger btn-sm delete-product" 
-                                    data-id="<?= $row['product_id']; ?>" 
-                                    data-name="<?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <td class="text-center">
+                                <!-- Edit Dropdown -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Edit
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- Edit Details Option -->
+                                        <li>
+                                            <a href="javascript:void(0);" class="dropdown-item edit-product" 
+                                            data-id="<?= $row['product_id']; ?>" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editDetailsModal">
+                                            Details
+                                            </a>
+                                        </li>
+                                        <!-- Edit Image Option -->
+                                        <li>
+                                            <a href="javascript:void(0);" class="dropdown-item edit-image" 
+                                            data-id="<?= $row['product_id']; ?>" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editImageModal">
+                                            Image
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Delete Button -->
+                                <a href="javascript:void(0);" 
+                                class="btn btn-danger btn-sm delete-product" 
+                                data-id="<?= $row['product_id']; ?>" 
+                                data-name="<?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteConfirmationModal">
                                     Delete
-                                    </a>
-                                </td>
+                                </a>
+                            </td>
+
                             </tr>
                         <?php
                             }
@@ -235,6 +265,83 @@ include("./includes/sidebar.php");
         </div>
     </div>
 </div>
+
+<!-- Edit Image Modal -->
+<div class="modal fade" id="editImageModal" tabindex="-1" aria-labelledby="editImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editImageModalLabel">Manage Product Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="productImageContent" class="row">
+                    <div class="col-md-3 text-center">
+                        <img src="path/to/image.jpg" alt="Product Image" class="img-thumbnail">
+                        <button type="button" class="btn btn-primary">Set as Primary</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                    <!-- Add more images and buttons dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Details Modal -->
+<div class="modal fade" id="editDetailsModal" tabindex="-1" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDetailsModalLabel">Edit Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="./controller/update-product.php" method="POST">
+                    <input type="hidden" name="product_id" id="editProductId">
+                    <div class="mb-3">
+                        <label for="editProductName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="editProductName" name="product_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="editPrice" name="price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategory" class="form-label">Category</label>
+                        <select class="form-select" id="editCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <?php
+                            // Populate categories dynamically from the database
+                            $categoryQuery = "SELECT id, name FROM categories";
+                            $categories = mysqli_query($con, $categoryQuery);
+                            while ($category = mysqli_fetch_assoc($categories)) {
+                                echo "<option value='{$category['id']}'>{$category['name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="editQuantity" name="quantity" required>
+                    </div>
+                    <!-- Save Changes button aligned to the right -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <?php
