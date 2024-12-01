@@ -24,7 +24,7 @@ if (isset($_POST['addproduct'])) {
         $product_id = mysqli_insert_id($con);
 
         // Log the activity
-        $activity_description = "Vendor added a new product: $product_name (ID: $product_id)";
+        $activity_description = "Added a new product: $product_name (ID: $product_id)";
         $activity_log = "INSERT INTO `recent_activities`(`user_id`, `activity_type`, `description`) 
                          VALUES ('$userId', '$activity_type', '$activity_description')";
         mysqli_query($con, $activity_log);

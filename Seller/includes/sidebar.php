@@ -15,14 +15,14 @@
     </a>
   </li><!-- End Dashboard Nav -->
 
+  <li class="nav-heading">Manage</li>
+
   <li class="nav-item">
     <a class="nav-link <?php echo ($current_page == 'products.php') ? '' : 'collapsed'; ?>" href="products.php">
     <i class="bi bi-bag-plus"></i>
       <span>Products</span>
     </a>
   </li>
-
-  <li class="nav-heading">Manage</li>
 
   <li class="nav-item">
     <a class="nav-link <?php echo ($current_page == 'orders.php') ? '' : 'collapsed'; ?>" href="orders.php">
