@@ -67,11 +67,11 @@ if (isset($_POST['signin'])) {
 
                 // Role-based redirection
                 if ($userRole == 'admin') {
-                    header("Location: ../Admin/index.php"); 
+                    header("Location: ../../Admin/index.php"); 
                 } elseif ($userRole == 'buyer') {
-                    header("Location: ../Customer/index.php");
+                    header("Location: ../../Customer/index.php");
                 } elseif ($userRole == 'seller') {
-                    header("Location: ../Seller/index.php");
+                    header("Location: ../../Seller/index.php");
                 } else {
                     header("Location: ../index.php");
                 }

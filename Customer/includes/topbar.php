@@ -58,6 +58,12 @@
             </a>
           </li>
           <li>
+          <li>
+          <a class="dropdown-item d-flex align-items-center" href="cart.php">
+            <i class="bi bi-bag"></i>
+              <span>Orders</span>
+            </a>
+          </li>
             <hr class="dropdown-divider">
           </li>
           <li>

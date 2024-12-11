@@ -19,19 +19,6 @@
 
 </main><!-- End #main -->
 
- <!-- ======= Footer ======= -->
- <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>Oroquieta Marketplace</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Integrate by <a href="#">Misamis University</a>
-    </div>
-  </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -45,6 +32,20 @@
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	
+</script>
+
+
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
@@ -483,6 +484,50 @@ $(document).on('click', '.delete-category', function () {
     // Event listeners
     newPasswordInput.addEventListener('input', validatePassword);
     renewPasswordInput.addEventListener('input', validatePassword);
+
+
+    //add to cart
+    document.addEventListener("DOMContentLoaded", function () {
+        // Ensure the element exists
+        var addToCartButton = document.getElementById('add-to-cart');
+        
+        if (addToCartButton) {
+            addToCartButton.addEventListener('click', function () {
+                var quantity = document.getElementById('quantity').value; // Get quantity from input
+                var product_id = <?php echo $product['product_id']; ?>; // Product ID from PHP
+                var user_id = <?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null'; ?>; // User ID from session
+
+                if (quantity && product_id && user_id !== null) {
+                    // Create AJAX request to send data to the controller
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "./controller/addtocart.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var response = xhr.responseText.trim();
+                            
+                            // Handle the response from the server
+                            if (response === "success") {
+                                alert("Product added to cart!");
+                            } else if (response === "not_logged_in") {
+                                alert("You must be logged in to add items to the cart.");
+                            } else {
+                                alert("There was an error adding the product to the cart.");
+                            }
+                        }
+                    };
+                    
+                    xhr.send("product_id=" + product_id + "&quantity=" + quantity + "&user_id=" + user_id);
+                } else {
+                    alert("Please select a quantity.");
+                }
+            });
+        } else {
+            console.error("Add to Cart button not found");
+        }
+    });
+
 
 
 

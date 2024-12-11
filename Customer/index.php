@@ -5,289 +5,874 @@ include("./includes/topbar.php");
 ?>
 
 <style>
-    /* Background color classes */
-  .bg-white {
-    background-color: #ffffff !important;
-  }
-  .bg-grey {
-    background-color: #eeeeee !important;
-  }
-  .bg-black {
-    background-color: #555555 !important;
-  }
-  .bg-red {
-    background-color: #f75353 !important;
-  }
-  .bg-green {
-    background-color: #51d466 !important;
-  }
-  .bg-lblue {
-    background-color: #32c8de !important;
-  }
-  .bg-blue {
-    background-color: #609cec !important;
-  }
-  .bg-orange {
-    background-color: #f78153 !important;
-  }
-  .bg-yellow {
-    background-color: #fcd419 !important;
-  }
-  .bg-purple {
-    background-color: #cb79e6 !important;
-  }
-  .bg-rose {
-    background-color: #ff61e7 !important;
-  }
-  .bg-brown {
-    background-color: #d08166 !important;
+    body{margin-top:20px;}
+
+  /**
+  * Shop
+  */
+  /** Shop: Index **/
+  /* General */
+    /* Card Styling */
+  .shop__thumb {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 300px;  /* Adjust the card height */
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
   }
 
-  /* Button classes */
-  .btn {
-      border-radius: 2px;
-    position: relative;
-  }
-  .btn.btn-no-border {
-    border: 0px !important;
-  }
-  /* Button colors */
-  .btn.btn-white {
-    background: #ffffff;
-    color: #666666;
-    border: 1px solid #dddddd;
-  }
-  .btn.btn-white:hover,
-  .btn.btn-white:focus,
-  .btn.btn-white.active,
-  .btn.btn-white:active {
-    background: #f7f7f7;
-    color: #666666;
-  }
-  .btn.btn-grey {
-    background: #eeeeee;
-    color: #666666;
-    border: 1px solid #d5d5d5;
-  }
-  .btn.btn-grey:hover,
-  .btn.btn-grey:focus,
-  .btn.btn-grey.active,
-  .btn.btn-grey:active {
-    background: #d5d5d5;
-    color: #999;
-  }
-  .btn.btn-black {
-    color: #ffffff;
-    background: #666666;
-    border: 1px solid #4d4d4d;
-  }
-  .btn.btn-black:hover,
-  .btn.btn-black:focus,
-  .btn.btn-black.active,
-  .btn.btn-black:active {
-    background: #4d4d4d;
-    color: #ffffff;
-  }
-  .btn.btn-red {
-    color: #ffffff;
-    background: #ed5441;
-    border: 1px solid #e52d16;
-  }
-  .btn.btn-red:hover,
-  .btn.btn-red:focus,
-  .btn.btn-red.active,
-  .btn.btn-red:active {
-    color: #ffffff;
-    background: #e52d16;
-  }
-  .btn.btn-green {
-    color: #ffffff;
-    background: #51d466;
-    border: 1px solid #30c247;
-  }
-  .btn.btn-green:hover,
-  .btn.btn-green:focus,
-  .btn.btn-green.active,
-  .btn.btn-green:active {
-    background: #30c247;
-    color: #ffffff;
-  }
-  .btn.btn-lblue {
-    color: #ffffff;
-    background: #32c8de;
-    border: 1px solid #1faabe;
-  }
-  .btn.btn-lblue:hover,
-  .btn.btn-lblue:focus,
-  .btn.btn-lblue.active,
-  .btn.btn-lblue:active {
-    background: #1faabe;
-    color: #ffffff;
-  }
-  .btn.btn-blue {
-    color: #ffffff;
-    background: #609cec;
-    border: 1px solid #3280e7;
-  }
-  .btn.btn-blue:hover,
-  .btn.btn-blue:focus,
-  .btn.btn-blue.active,
-  .btn.btn-blue:active {
-    background: #3280e7;
-    color: #ffffff;
-  }
-  .btn.btn-orange {
-    color: #ffffff;
-    background: #f8a841;
-    border: 1px solid #f69110;
-  }
-  .btn.btn-orange:hover,
-  .btn.btn-orange:focus,
-  .btn.btn-orange.active,
-  .btn.btn-orange:active {
-    background: #f69110;
-    color: #ffffff;
-  }
-  .btn.btn-yellow {
-    background: #fcd419;
-    color: #ffffff;
-    border: 1px solid #dfb803;
-  }
-  .btn.btn-yellow:hover,
-  .btn.btn-yellow:focus,
-  .btn.btn-yellow.active,
-  .btn.btn-yellow:active {
-    background: #dfb803;
-    color: #ffffff;
-  }
-  .btn.btn-purple {
-    background: #cb79e6;
-    color: #ffffff;
-    border: 1px solid #ba4ede;
-  }
-  .btn.btn-purple:hover,
-  .btn.btn-purple:focus,
-  .btn.btn-purple.active,
-  .btn.btn-purple:active {
-    background: #ba4ede;
-    color: #ffffff;
-  }
-  .btn.btn-rose {
-    background: #ff61e7;
-    color: #ffffff;
-    border: 1px solid #ff2edf;
-  }
-  .btn.btn-rose:hover,
-  .btn.btn-rose:focus,
-  .btn.btn-rose.active,
-  .btn.btn-rose:active {
-    background: #ff2edf;
-    color: #ffffff;
-  }
-  .btn.btn-brown {
-    background: #d08166;
-    color: #ffffff;
-    border: 1px solid #c4613f;
-  }
-  .btn.btn-brown:hover,
-  .btn.btn-brown:focus,
-  .btn.btn-brown.active,
-  .btn.btn-brown:active {
-    background: #c4613f;
-    color: #ffffff;
+  .shop-thumb__img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150px;  /* Image height */
+      width: 100%;
   }
 
-  .shop-items{
-    max-width:1150px;
-    margin:10px auto;
-    padding:0px 20px;
+  .shop-thumb__img img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;  /* Ensures image stays centered and scales properly */
   }
-  .shop-items .item {
+
+  .shop-thumb__title {
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+  }
+
+  .shop-thumb__price {
+      font-size: 14px;
+      color: #333;
+      margin-top: 10px;
+  }
+
+  .shop-thumb-price_new {
+      font-weight: bold;
+      color: #27ae60;
+  }
+  .shop-index__section {
     position: relative;
-    max-width: 360px;
-    margin: 15px auto;
-    padding: 5px;
-    text-align: center;
-    border-radius: 4px;
-    overflow: hidden;
-    border:2px solid #eee;
+    margin-bottom: 60px;
   }
-  .shop-items .item:hover{	
-    border:2px solid #32c8de;
+  .shop-index__section.alt {
+    background-color: #f5f5f5;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.05);
   }
-  .shop-items .item img {
+  .shop-index__heading {
+    margin-top: 0;
+    margin-bottom: 60px;
+    font-family: 'Questrial', sans-serif;
+  }
+  .shop-index__heading + p {
+    margin-top: -50px;
+    margin-bottom: 60px;
+    color: #777777;
+  }
+  /* Shop: Slideshow */
+  .shop__slideshow {
+    margin-top: -18px;
+    margin-bottom: 60px;
+  }
+  .shop__slideshow .carousel-inner .item__container {
+    display: table;
     width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-    border: 1px solid #eee;
-    border-radius: 3px;
+    height: 100%;
   }
-  .shop-items .item  .item-dtls h4 {
-    margin-top: 13px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
+  .shop__slideshow .carousel-inner .item-container__inner {
+    display: table-cell;
+    vertical-align: middle;
   }
-  .shop-items .item  .item-dtls .price {
+  .shop__slideshow .carousel-inner .item {
+    width: 100%;
+    height: 600px;
+  }
+
+  .shop-slideshow__heading {
+    margin: 0 0 20px 0;
+    font-family: 'Questrial', sans-serif;
+    font-size: 46px;
+    line-height: 1.2;
+    color: white;
+  }
+  .shop-slideshow__subheading {
+    margin-bottom: 30px;
+    font-family: 'Questrial', sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: white;
+  }
+  .shop-slideshow__btn {
+    border: 2px solid white;
+    border-radius: 0;
+    color: white;
+    font-weight: 600;
+  }
+  .shop-slideshow__btn:hover,
+  .shop-slideshow__btn:focus {
+    color: #333333;
+    background-color: white;
+  }
+  @media (max-width: 767px) {
+    .shop__slideshow .carousel-inner .item {
+      height: 400px;
+      padding: 0 30px;
+      text-align: center;
+    }
+    .shop-slideshow__heading {
+      font-size: 32px;
+    }
+    .shop-slideshow__subheading {
+      font-size: 16px;
+    }
+  }
+  /* Carousel controls */
+  .shop-slideshow__control {
     display: block;
-    margin-bottom: 13px;
-    font-size: 25px;
-  }
-  .shop-items .item  .ecom {
     position: absolute;
-    top: 100%;
+    top: 50%;
+    left: 10px;
+    width: 30px;
+    height: 70px;
+    opacity: 0;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+    -webkit-transition: opacity .3s;
+        -o-transition: opacity .3s;
+            transition: opacity .3s;
+  }
+  .shop-slideshow__control:hover {
+    opacity: 1 !important;
+  }
+  .shop-slideshow__control[data-slide="next"] {
+    left: auto;
+    right: 10px;
+  }
+  .shop__slideshow:hover .shop-slideshow__control {
+    opacity: .3;
+  }
+  /* Features */
+  .shop-index-features__item {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .shop-index-features__icon {
+    margin-bottom: 20px;
+    width: 90px;
+    height: 100px;
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 100px;
+    text-align: center;
+    font-size: 24px;
+  }
+  .shop-index-features__heading {
+    margin-bottom: 15px;
+  }
+  .shop-index-features__heading + p {
+    color: #777777;
+  }
+  /* Blog post */
+  .shop-index-blog__posts > [class*="col-"] {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .shop-index-blog__posts > [class*="col-"]:last-child {
+    border-right: 0;
+  }
+  .shop-index-blog__post {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .shop-index-blog__img {
+    position: relative;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 20px;
+    width: 90px;
+    height: 100px;
+    overflow: hidden;
+  }
+  .shop-index-blog__img:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
+  
+  }
+  .shop-index-blog__img > img {
+    height: 100%;
+    width: auto;
+  }
+  .shop-index-blog__body {
+    overflow: hidden;
+  }
+  .shop-index-blog__heading {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+  .shop-index-blog__heading:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .shop-index-blog__content {
+    margin-bottom: 20px;
+    color: #777777;
+  }
+  @media (max-width: 991px) {
+    .shop-index-blog__img {
+      float: none;
+      margin-right: 0;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .shop-index-blog__heading {
+      text-align: center;
+    }
+    .shop-index-blog__heading:after {
+      left: 50%;
+      margin-left: -15px;
+    }
+  }
+  @media (max-width: 767px) {
+    .shop-index-blog__posts > [class*="col-"] {
+      padding-top: 0;
+      padding-bottom: 60px;
+      border-right: 0;
+    }
+    .shop-index-blog__posts > [class*="col-"]:last-child {
+      padding-bottom: 0;
+    }
+    .shop-index-blog__post {
+      width: 100%;
+    }
+  }
+  /* Newsletter */
+  .shop-index__newsletter {
+    padding-bottom: 20px;
+  }
+  .shop-index__newsletter .shop-index__heading {
+    margin-bottom: 20px;
+    line-height: 42px;
+    text-align: center;
+  }
+  .shop-index__newsletter input[type="email"] {
+    height: 42px;
+    padding: 11px 12px;
+  }
+  .shop-index__newsletter button[type="submit"] {
+    padding: 11px 30px;
     width: 100%;
-    padding-bottom:10px;
-    padding-top: 10px;
-    -webkit-transition: all 0.35s ease-in;
-    -moz-transition: all 0.35s ease-in;
-    -ms-transition: all 0.35s ease-in;
-    -o-transition: all 0.35s ease-in;
-    transition: all 0.35s ease-in;
   }
-  .shop-items .item:hover  .ecom { 
-    margin-top: -50px; 
+  @media (min-width: 768px) {
+    .shop-index__newsletter .shop-index__heading {
+      margin-bottom: 0px;
+      text-align: right;
+    }
+    .shop-index__newsletter input[type="email"] {
+      border-radius: 21px 0 0 21px;
+    }
+    .shop-index__newsletter button[type="submit"] {
+      margin-left: -3px;
+      border-radius: 0 21px 21px 0;
+      width: auto;
+    }
   }
-  .shop-items .item  .ecom  a.btn{
-    border:1px solid #fff;
-    color:#fff;
-    background:transparent;
-    -webkit-transition: all 0.35s ease-in;
-    -moz-transition: all 0.35s ease-in;
-    -ms-transition: all 0.35s ease-in;
-    -o-transition: all 0.35s ease-in;
-    transition: all 0.35s ease-in;
+  /** Shop: Thumbnails **/
+  .shop__thumb {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    text-align: center;
+    -webkit-transition: border-color 0.1s, -webkit-box-shadow 0.1s;
+        -o-transition: border-color 0.1s, box-shadow 0.1s;
+            transition: border-color 0.1s, box-shadow 0.1s;
   }
-  .shop-items .item  .ecom  a.btn:hover{
-    background:#fff;
-    color:#777;
-  }     
+  .shop__thumb:hover {
+    border-color: rgba(0, 0, 0, 0.07);
+    -webkit-box-shadow: 0 5px 30px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.07);
+  }
+  .shop__thumb > a {
+    color: #333333;
+  }
+  .shop__thumb > a:hover {
+    text-decoration: none;
+  }
+  .shop-thumb__img {
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .shop-thumb__title {
+    font-weight: 600;
+  }
+  .shop-thumb__price {
+    color: #777777;
+  }
+  .shop-thumb-price_old {
+    text-decoration: line-through;
+  }
+  .shop-thumb-price_new {
+    color: red;
+  }
+  /** Shop: Item **/
+  .shop-item__info {
+    padding: 30px;
+    margin-bottom: 40px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .shop-item-cart__title {
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .shop-item-cart__price {
+    font-size: 28px;
+    font-weight: 400;
+    color: #F7C41F;
+  }
+  .shop-item__intro {
+    color: #777777;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .shop-item__add button[type="submit"] {
+    padding: 15px 20px;
+  }
+  .shop-item__img {
+    margin-bottom: 40px;
+  }
+  .shop-item-img__main {
+    width: -webkit-calc(100% - 110px);
+    width: calc(100% - 110px);
+    height: auto;
+    float: left;
+  }
+  .shop-item-img__aside {
+    width: 100px;
+    height: auto;
+    float: left;
+  }
+  .shop-item-img__aside > img {
+    cursor: pointer;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    opacity: .5;
+  }
+  .shop-item-img__aside > img:hover,
+  .shop-item-img__aside > img.active {
+    border-color: rgba(0, 0, 0, 0.05);
+    opacity: 1;
+  }
+  @media (max-width: 767px) {
+    .shop-item-img__main {
+      width: -webkit-calc(100% - 60px);
+      width: calc(100% - 60px);
+    }
+    .shop-item-img__aside {
+      width: 50px;
+    }
+  }
+  /** Shop: Filter **/
+  .shop__filter {
+    margin-bottom: 40px;
+  }
+  /* Shop filter: Pricing */
+  .shop-filter__price {
+    padding: 15px;
+  }
+  .shop-filter__price [class*='col-'] {
+    padding: 2px;
+  }
+  /* Shop filter: Colors */
+  .shop-filter__color {
+    display: inline-block;
+    margin: 0 2px 2px 0;
+  }
+  .shop-filter__color input[type="text"] {
+    display: none;
+  }
+  .shop-filter__color label {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  /** Shop: Sorting **/
+  .shop__sorting {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 40px;
+    margin-top: -20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: right;
+  }
+  .shop__sorting > li {
+    display: inline-block;
+  }
+  .shop__sorting > li > a {
+    display: block;
+    padding: 20px 10px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: #757575;
+    -webkit-transition: all .05s linear;
+        -o-transition: all .05s linear;
+            transition: all .05s linear;
+  }
+  .shop__sorting > li > a:hover,
+  .shop__sorting > li > a:focus {
+    color: #333333;
+    text-decoration: none;
+  }
+  .shop__sorting > li.active > a {
+    color: #ed3e49;
+    border-bottom-color: #ed3e49;
+  }
+  @media (max-width: 767px) {
+    .shop__sorting {
+      text-align: left;
+      border-bottom: 0;
+    }
+    .shop__sorting > li {
+      display: block;
+    }
+    .shop__sorting > li > a {
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .shop__sorting > li.active > a {
+      font-weight: 600;
+    }
+  }
+  /** Shop: Checkout **/
+  .checkout__block {
+    margin-bottom: 40px;
+  }
+  .checkout-cart__item {
+    margin-bottom: 15px;
+  }
+  .checkout-cart-item__img {
+    max-width: 80px;
+    margin-right: 10px;
+    float: left;
+  }
+  .checkout-cart-item__content {
+    overflow: hidden;
+  }
+  .checkout-cart-item__heading {
+    margin-top: 0;
+  }
+  .checkout-cart-item__footer {
+    padding: 10px 0;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+  }
+  .checkout-cart-item__price {
+    font-weight: 600;
+  }
+  .checkout-total__block {
+    margin-bottom: 40px;
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+  }
+  .checkout-total__block > .row > [class*="col-"] {
+    padding: 40px 40px;
+    border-right: 1px solid #e9e9e9;
+    color: #aaa;
+  }
+  .checkout-total__block > .row > [class*="col-"]:last-child {
+    border-right: 0;
+    color: #333333;
+  }
+  @media (max-width: 767px) {
+    .checkout-total__block {
+      border: 0;
+    }
+    .checkout-total__block > .row > [class*="col-"] {
+      padding: 15px 20px;
+      border: 0;
+      border-top: 1px solid #e9e9e9;
+    }
+    .checkout-total__block > .row > [class*="col-"]:last-child {
+      border-bottom: 1px solid #e9e9e9;
+    }
+  }
+  .checkout-total__heading {
+    float: left;
+  }
+  .checkout-total__price {
+    float: right;
+    margin: 9px 0;
+    font-size: 17px;
+  }
+  .checkout__submit {
+    padding: 15px 40px;
+  }
+  /** Shop: Order Confirmation */
+  .shop-conf__heading {
+    margin-bottom: 40px;
+  }
+  .shop-conf__heading + p {
+    margin-bottom: 100px;
+  }
+
+
+  /**
+  * Forms
+  */
+  .form-control,
+  .form-control:focus {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    outline: none;
+  }
+  /* Has error */
+  .has-error .form-control {
+    border-color: #d9534f;
+    -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+  }
+  .has-error .form-control:focus {
+    border-color: #b52b27;
+  }
+  .has-error .help-block {
+    color: #d9534f;
+  }
+  /* Checkboxes */
+  .checkbox input[type="checkbox"] {
+    display: none;
+  }
+  .checkbox label {
+    padding-left: 0;
+  }
+  .checkbox label:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #eee;
+    text-align: center;
+    font-family: "FontAwesome";
+  }
+  .checkbox input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+  }
+  /* Radios */
+  .radio input[type="radio"] {
+    display: none;
+  }
+  .radio label {
+    padding-left: 0;
+  }
+  .radio label:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 10px solid #eee;
+    background-color: #333333;
+  }
+  .radio input[type="radio"]:checked + label:before {
+    border-width: 7px;
+  }
+  /* Quantity */
+  .input_qty {
+    margin-bottom: 10px;
+  }
+  .input_qty input[type="text"] {
+    display: none;
+  }
+  .input_qty label {
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    line-height: 40px;
+    text-align: center;
+  }
+  .input_qty label > span:not(.output) {
+    width: 40px;
+    height: 40px;
+    float: left;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+        user-select: none;
+  }
+  .input_qty label > span:not(.output):last-child {
+    float: right;
+    border-right: 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .input_qty label > span:not(.output):hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+  .input_qty label > output {
+    display: inline-block;
+    line-height: inherit;
+    padding: 0;
+  }
+  .input_qty_sm label {
+    width: 80px;
+    height: 20px;
+    border: 0;
+    line-height: 20px;
+    color: #ccc;
+  }
+  .input_qty_sm label > span:not(.output) {
+    width: 20px;
+    height: 20px;
+    border: 0 !important;
+  }
+  .input_qty_sm label > span:not(.output):hover {
+    background-color: transparent;
+    color: #333333;
+  }
+  .input_qty_sm label output {
+    color: #ccc;
+    font-weight: 600;
+  }
 </style>
 
-<div class="shop-items">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3 col-sm-6">
-            <!-- Restaurant Item -->
-            <div class="item">
-              <!-- Item's image -->
-              <img class="img-responsive" src="https://www.bootdey.com/image/200x200/5F9EA0/000000" alt="">
-              <!-- Item details -->
-              <div class="item-dtls">
-                <!-- product title -->
-                <h4><a href="#">Lorem product</a></h4>
-                <!-- price -->
-                <span class="price lblue">$23.00</span>
-              </div>
-              <!-- add to cart btn -->
-              <div class="ecom bg-lblue">
-                <a class="btn" href="#">Add to cart</a>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-md-3">
+      <form>
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search products...">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
               </div>
             </div>
           </div>
         </div>
+      </form>
+
+      <!-- Filter -->
+      <form class="shop__filter">
+        <!-- Price -->
+        <h3 class="headline">
+          <span>Price</span>
+        </h3>
+        <div class="radio">
+          <input type="radio" name="shop-filter__price" id="shop-filter-price_1" value="" checked="">
+          <label for="shop-filter-price_1">Under $25</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__price" id="shop-filter-price_2" value="">
+          <label for="shop-filter-price_2">$25 to $50</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__price" id="shop-filter-price_3" value="">
+          <label for="shop-filter-price_3">$50 to $100</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__price" id="shop-filter-price_4" value="specify">
+          <label for="shop-filter-price_4">Other (specify)</label>
+        </div>
+        <div class="form-group shop-filter__price">
+          <div class="row">
+            <div class="col-xs-4">
+              <label for="shop-filter-price_from" class="sr-only"></label>
+              <input id="shop-filter-price_from" type="number" min="0" class="form-control" placeholder="From" disabled="">
+            </div>
+            <div class="col-xs-4">
+              <label for="shop-filter-price_to" class="sr-only"></label>
+              <input id="shop-filter-price_to" type="number" min="0" class="form-control" placeholder="To" disabled="">
+            </div>
+            <div class="col-xs-4">
+              <button type="submit" class="btn btn-block btn-default" disabled="">Go</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkboxes -->
+        <h3 class="headline">
+          <span>Brand</span>
+        </h3>
+        <div class="checkbox">
+          <input type="checkbox" value="" id="shop-filter-checkbox_1" checked="">
+          <label for="shop-filter-checkbox_1">Adidas</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" value="" id="shop-filter-checkbox_2">
+          <label for="shop-filter-checkbox_2">Calvin Klein</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" value="" id="shop-filter-checkbox_3">
+          <label for="shop-filter-checkbox_3">Columbia</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" value="" id="shop-filter-checkbox_4">
+          <label for="shop-filter-checkbox_4">Tommy Hilfiger</label>
+        </div>
+        <div class="checkbox">
+          <input type="checkbox" value="" id="shop-filter-checkbox_5">
+          <label for="shop-filter-checkbox_5">Not specified</label>
+        </div>
+
+        <!-- Radios -->
+        <h3 class="headline">
+          <span>Material</span>
+        </h3>
+        <div class="radio">
+          <input type="radio" name="shop-filter__radio" id="shop-filter-radio_1" value="" checked="">
+          <label for="shop-filter-radio_1">100% Cotton</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__radio" id="shop-filter-radio_2" value="">
+          <label for="shop-filter-radio_2">Bamboo</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__radio" id="shop-filter-radio_3" value="">
+          <label for="shop-filter-radio_3">Leather</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__radio" id="shop-filter-radio_4" value="">
+          <label for="shop-filter-radio_4">Polyester</label>
+        </div>
+        <div class="radio">
+          <input type="radio" name="shop-filter__radio" id="shop-filter-radio_5" value="">
+          <label for="shop-filter-radio_5">Not specified</label>
+        </div>
+
+        <!-- Colors -->
+        <h3 class="headline">
+          <span>Colors</span>
+        </h3>
+        <div class="shop-filter__color">
+          <input type="text" id="shop-filter-color_1" value="" data-input-color="black">
+          <label for="shop-filter-color_1" style="background-color: black;"></label>
+        </div>
+        <div class="shop-filter__color">
+          <input type="text" id="shop-filter-color_2" value="" data-input-color="gray">
+          <label for="shop-filter-color_2" style="background-color: gray;"></label>
+        </div>
+        <div class="shop-filter__color">
+          <input type="text" id="shop-filter-color_3" value="" data-input-color="brown">
+          <label for="shop-filter-color_3" style="background-color: brown;"></label>
+        </div>
+        <div class="shop-filter__color">
+          <input type="text" id="shop-filter-color_4" value="" data-input-color="beige">
+          <label for="shop-filter-color_4" style="background-color: beige;"></label>
+        </div>
+        <div class="shop-filter__color">
+          <input type="text" id="shop-filter-color_5" value="" data-input-color="white">
+          <label for="shop-filter-color_5" style="background-color: white;"></label>
+        </div>
+      </form>
     </div>
-</div>       
+    
+    <div class="col-sm-8 col-md-9">
+      <!-- Filters -->
+      <ul class="shop__sorting">
+        <li class="active"><a href="#">Popular</a></li>
+        <li><a href="#">Newest</a></li>
+        <li><a href="#">Bestselling</a></li>
+        <li><a href="#">Price (low)</a></li>
+        <li><a href="#">Price (high)</a></li>
+      </ul>
+
+      <div class="row">
+        <?php
+        // Fetch products from the database
+        $query = "SELECT product.product_id, product.name, product.price, product_images.image
+                  FROM product
+                  INNER JOIN product_images ON product.product_id = product_images.product_id
+                  WHERE product_images.is_primary = 1";
+        $result = mysqli_query($con, $query);
+        
+        // Loop through and display each product
+        while ($product = mysqli_fetch_assoc($result)) {
+          // Convert LONG BLOB to base64 for image rendering
+          $imageData = base64_encode($product['image']);
+          $imageSrc = 'data:image/jpeg;base64,' . $imageData;  // assuming image is jpeg, adjust if necessary
+
+          echo '<div class="col-sm-6 col-md-4">';
+          echo '  <div class="shop__thumb">';
+          echo '    <a href="product_details.php?product_id=' . $product['product_id'] . '">';  // Redirect with product_id
+          echo '      <div class="shop-thumb__img">';
+          echo '        <img src="' . $imageSrc . '" class="img-responsive" alt="...">';
+          echo '      </div>';
+          echo '      <h5 class="shop-thumb__title">' . $product['name'] . '</h5>';
+          echo '      <div class="shop-thumb__price">';
+          echo '        <span class="shop-thumb-price_new">$' . $product['price'] . '</span>';
+          echo '      </div>';
+          echo '    </a>';
+          echo '  </div>';
+          echo '</div>';
+        }
+        ?>
+      </div> <!-- / .row -->
+
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="pagination pull-right">
+            <li class="disabled"><a href="#">«</a></li>
+            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">»</a></li>
+          </ul>
+        </div>
+      </div> <!-- / .row -->
+      
+    </div> <!-- / .col-sm-8 -->
+  </div> <!-- / .row -->
+</div>
 
 
 <?php
