@@ -351,6 +351,7 @@ $query = "
         product.status, 
         users.first_name, 
         users.middle_name, 
+        users.facebookLink,
         users.last_name
     FROM
         product
@@ -465,22 +466,21 @@ $product_images_result = mysqli_query($con, $product_images_query);
                 </div>
                 <hr />
                 <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-6">
-        <!-- Add to cart form -->
-        <form action="./controller/addtocart.php" method="POST">
-            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
-            <input type="hidden" name="user_id" value="<?php echo isset($_SESSION['auth_user']['userId']) ? $_SESSION['auth_user']['userId'] : ''; ?>">
+  <div class="col-sm-12 d-flex justify-content-between">
+    <form action="./controller/addtocart.php" method="POST">
+      <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+      <input type="hidden" name="user_id" value="<?php echo isset($_SESSION['auth_user']['userId']) ? $_SESSION['auth_user']['userId'] : ''; ?>">
 
-            <!-- Quantity input -->
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" required>
-            </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" required>
+      </div>
 
-            <!-- Add to cart button -->
-            <button type="submit" class="btn btn-success btn-lg">Add to cart</button>
-        </form>
-    </div>
+      <button type="submit" class="btn btn-success btn-lg">Add to Cart</button>
+      <a href="<?php echo $product['facebookLink']; ?>" class="btn btn-primary btn-lg">Message Me</a>
+    </form>
+
+  </div>
 </div>
             </div>
         </div>

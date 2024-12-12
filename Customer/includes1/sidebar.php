@@ -7,14 +7,6 @@
   // Get the name of the current file
   $current_page = basename($_SERVER['PHP_SELF']);
   ?>
-
-<li class="nav-item">
-    <a class="nav-link <?php echo ($current_page == 'index.php') ? '' : 'collapsed'; ?>" href="index.php">
-    <i class="bi bi-grid"></i>
-      <span>Dashboard</span>
-    </a>
-</li>
-
   <li class="nav-heading">Manage</li>
 
   <li class="nav-item">

@@ -47,7 +47,7 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link <?php echo ($current_page == 'staff.php') ? '' : 'collapsed'; ?>" href="staff.php">
+    <a class="nav-link <?php echo ($current_page == 'orders.php') ? '' : 'collapsed'; ?>" href="orders.php">
     <i class="bi bi-broadcast-pin"></i>
       <span>Orders</span>
     </a>
