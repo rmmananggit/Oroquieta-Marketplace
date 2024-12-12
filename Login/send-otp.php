@@ -23,7 +23,7 @@ try {
 
     //Recipients
     $mail->setFrom('l1pewpeww@gmail.com', 'Oroquieta Marketplace');
-    $mail->addAddress('rmmananggit@gmail.com', 'Joe User');     //Add a recipient
+    $mail->addAddress('$emailAddress');     //Add a recipient
 
     //Content
     $mail->isHTML(true);  

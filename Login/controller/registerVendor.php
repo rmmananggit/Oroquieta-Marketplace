@@ -25,7 +25,7 @@ if (isset($_POST['signup'])) {
               VALUES ('$firstName', '$middleName', '$lastName', '$userName', '$password', '$emailAddress', '$role', '$otp')";
 
     if (mysqli_query($con, $query)) {
-        $_SESSION['status'] = "You are registered as a User!";
+        $_SESSION['status'] = "You are registered as a Merchant!";
         $_SESSION['status_code'] = "success";
         header('Location: ../index.php');
         exit(0);
