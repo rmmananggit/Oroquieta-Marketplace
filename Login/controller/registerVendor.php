@@ -12,6 +12,7 @@ if (isset($_POST['signup'])) {
     $re_pass = $_POST['re_pass'];
     $role = "seller";
 
+    // Check if password and confirm password match
     if ($password != $re_pass) {
         $_SESSION['status'] = "Passwords do not match!";
         $_SESSION['status_code'] = "error";
@@ -19,8 +20,21 @@ if (isset($_POST['signup'])) {
         exit(0);
     }
 
+    // Check if email or username already exists
+    $checkQuery = "SELECT * FROM users WHERE email = '$emailAddress' OR username = '$userName'";
+    $result = mysqli_query($con, $checkQuery);
+
+    if (mysqli_num_rows($result) > 0) {
+        $_SESSION['status'] = "Email address or username is already taken!";
+        $_SESSION['status_code'] = "error";
+        header('Location: ../signup.php');
+        exit(0);
+    }
+
+    // Generate OTP
     $otp = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), 0, 6);
 
+    // Insert new user into the database
     $query = "INSERT INTO `users` (`first_name`, `middle_name`, `last_name`, `username`, `password`, `email`, `role`, `otp`) 
               VALUES ('$firstName', '$middleName', '$lastName', '$userName', '$password', '$emailAddress', '$role', '$otp')";
 
