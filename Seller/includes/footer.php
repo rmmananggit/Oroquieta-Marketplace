@@ -361,40 +361,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listeners
     newPasswordInput.addEventListener('input', validatePassword);
     renewPasswordInput.addEventListener('input', validatePassword);
-
-
-    $(document).ready(function() {
-        $('.mark-as-sold').on('click', function() {
-            const cartId = $(this).data('cart-id');
-            const productId = $(this).data('product-id');
-            const quantity = $(this).data('quantity');
-
-            if (!cartId || !productId || !quantity) {
-                alert('Invalid data attributes for this button.');
-                return;
-            }
-
-            // Send AJAX request
-            $.ajax({
-                url: './controller/sold.php',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ cartId, productId, quantity }),
-                success: function(response) {
-                    if (response.success) {
-                        alert('Item marked as sold successfully.');
-                        location.reload();
-                    } else {
-                        alert(response.message || 'Failed to mark item as sold.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    alert('An unexpected error occurred.');
-                }
-            });
-        });
-    });
     
 </script>
 

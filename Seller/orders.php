@@ -11,7 +11,7 @@ include("./includes/sidebar.php");
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Dashboard</li>
-            <li class="breadcrumb-item active">My Order</li>
+            <li class="breadcrumb-item active">My Orders</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -32,6 +32,7 @@ include("./includes/sidebar.php");
                                 <th>Product Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
+                                <th>Total Price</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -39,46 +40,51 @@ include("./includes/sidebar.php");
                         <tbody>
                         <?php
                             $query = "SELECT
-    c.*, 
-    c.id AS cart_id, 
-    c.status AS cartStatus, 
-    c.quantity AS cartQuantity,
-    p.*, 
-    p.vendor_id, 
-    u.first_name, 
-    u.middle_name, 
-    u.last_name
-FROM
-    cart AS c
-INNER JOIN
-    product AS p
-ON 
-    c.product_id = p.product_id
-INNER JOIN
-    users AS u
-ON 
-    p.vendor_id = u.user_id
-WHERE
-    u.user_id = $userId
-ORDER BY
-    c.dateCreated DESC
-";
+                                c.*, 
+                                c.id AS cart_id, 
+                                c.status AS cartStatus, 
+                                c.quantity AS cartQuantity,
+                                p.*, 
+                                p.vendor_id, 
+                                u.first_name, 
+                                u.middle_name, 
+                                u.last_name
+                            FROM
+                                cart AS c
+                            INNER JOIN
+                                product AS p
+                            ON 
+                                c.product_id = p.product_id
+                            INNER JOIN
+                                users AS u
+                            ON 
+                                p.vendor_id = u.user_id
+                            WHERE
+                                u.user_id = $userId
+                            ORDER BY
+                                c.dateCreated DESC
+                            ";
+                            
                         $query_run = mysqli_query($con, $query);
                         if (!$query_run) {
                             die("Query failed: " . mysqli_error($con));
                         }
                         if (mysqli_num_rows($query_run) > 0) {
                             foreach ($query_run as $row) {
+                                // Calculate total price dynamically
+                                $totalPrice = $row['price'] * $row['cartQuantity'];
+                                
                                 // Prepare image
                                 $profileImageSrc = !empty($row['image']) 
                                     ? 'data:image/jpeg;base64,' . base64_encode($row['image']) 
                                     : './assets/img/noimage.jpg';
                         ?>
                             <tr>
-                            <td><?= $row['first_name']; ?> <?= $row['middle_name']; ?> <?= $row['last_name']; ?></td>
+                                <td><?= $row['first_name']; ?> <?= $row['middle_name']; ?> <?= $row['last_name']; ?></td>
                                 <td><?= $row['name']; ?></td>
                                 <td><?= $row['cartQuantity']; ?></td>
                                 <td><?= number_format($row['price'], 2, '.', ','); ?></td>
+                                <td><?= number_format($totalPrice, 2, '.', ','); ?></td> <!-- Displaying Total Price -->
                                 <td>
                                     <?php
                                     if ($row['cartStatus'] == 'Completed') {
@@ -93,25 +99,18 @@ ORDER BY
                                     ?>
                                 </td>
                               
-                           <td>
-    <div class="btn-group">
-    <button type="button"
-        class="btn btn-primary btn-sm mark-as-sold"
-        data-cart-id="<?= $row['cart_id']; ?>"
-        data-product-id="<?= $row['product_id']; ?>"
-        data-quantity="<?= $row['cartQuantity']; ?>">
-    Mark as Sold
-</button>
-    </div>
-</td>
-
+                                <td>
+                                    <?php if ($row['cartStatus'] != 'Completed') { ?>
+                                        <a class="btn btn-primary" href="./controller/sold.php?cart_id=<?= $row['cart_id']; ?>&product_id=<?= $row['product_id']; ?>&quantity=<?= $row['cartQuantity']; ?>"><b>Mark as Sold</b></a>
+                                    <?php } ?>
+                                </td>
                             </tr>
                         <?php
                             }
                         } else {
                         ?>
                             <tr>
-                                <td colspan="8">No Record Found</td>
+                                <td colspan="7">No Record Found</td>
                             </tr>
                         <?php
                         }
@@ -238,8 +237,6 @@ ORDER BY
         </div>
     </div>
 </div>
-
-
 
 <?php
 include("./includes/footer.php");
