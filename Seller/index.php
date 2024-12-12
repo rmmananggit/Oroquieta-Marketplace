@@ -19,36 +19,40 @@ include("./includes/sidebar.php");
       <div class="row">
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
           <div class="row">
 
             <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
+            <div class="col-xxl-6 col-md-6">
               <div class="card info-card sales-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Products</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <?php
+                    $userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']); 
+                                   $listings = "SELECT
+                                                  product.*
+                                                FROM
+                                                  product
+                                                WHERE
+                                                  product.vendor_id = $userId";
+                                   $listings_run = mysqli_query($con, $listings);
+
+
+                                   if($listings_total = mysqli_num_rows($listings_run))
+                                   {
+                                       echo '<h6 class="mb-0"> '.$listings_total.' </h6>';
+                                   }else
+                                   {
+                                       echo '<h6 class="mb-0">0</h6>';
+                                   }
+                      ?>
 
                     </div>
                   </div>
@@ -57,70 +61,43 @@ include("./includes/sidebar.php");
               </div>
             </div><!-- End Sales Card -->
 
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Revenue Card -->
-
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+            <div class="col-xxl-6 col-xl-12">
 
               <div class="card info-card customers-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Orders</h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                    <?php
+                                    $userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']); 
+                                   $listings = "SELECT
+                                                  product.vendor_id, 
+                                                  cart.*
+                                                FROM
+                                                  cart
+                                                  INNER JOIN
+                                                  product
+                                                  ON 
+                                                    cart.product_id = product.product_id
+                                                WHERE
+                                                  product.vendor_id = $userId";
+                                   $listings_run = mysqli_query($con, $listings);
 
+
+                                   if($listings_total = mysqli_num_rows($listings_run))
+                                   {
+                                       echo '<h6 class="mb-0"> '.$listings_total.' </h6>';
+                                   }else
+                                   {
+                                       echo '<h6 class="mb-0">0</h6>';
+                                   }
+                      ?>
                     </div>
                   </div>
 
@@ -129,522 +106,347 @@ include("./includes/sidebar.php");
 
             </div><!-- End Customers Card -->
 
-            <!-- Reports -->
-            <div class="col-12">
-              <div class="card">
+<?php $userId = mysqli_real_escape_string($con, $_SESSION['auth_user']['userId']); ?>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                    <br>
+                                      <!-- Button to Open Modal -->
+                                      <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createListingModal">
+                            Create Listings
+                        </button>
+                    </div>
 
-                  <!-- Line Chart -->
-                  <div id="reportsChart"></div>
-
-                  <script>
-                    document.addEventListener("DOMContentLoaded", () => {
-                      new ApexCharts(document.querySelector("#reportsChart"), {
-                        series: [{
-                          name: 'Sales',
-                          data: [31, 40, 28, 51, 42, 82, 56],
-                        }, {
-                          name: 'Revenue',
-                          data: [11, 32, 45, 32, 34, 52, 41]
-                        }, {
-                          name: 'Customers',
-                          data: [15, 11, 32, 18, 9, 24, 11]
-                        }],
-                        chart: {
-                          height: 350,
-                          type: 'area',
-                          toolbar: {
-                            show: false
-                          },
-                        },
-                        markers: {
-                          size: 4
-                        },
-                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                        fill: {
-                          type: "gradient",
-                          gradient: {
-                            shadeIntensity: 1,
-                            opacityFrom: 0.3,
-                            opacityTo: 0.4,
-                            stops: [0, 90, 100]
-                          }
-                        },
-                        dataLabels: {
-                          enabled: false
-                        },
-                        stroke: {
-                          curve: 'smooth',
-                          width: 2
-                        },
-                        xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                        },
-                        tooltip: {
-                          x: {
-                            format: 'dd/MM/yy HH:mm'
-                          },
+                    <!-- Modal -->
+                    <div class="modal fade" id="createListingModal" tabindex="-1" aria-labelledby="createListingModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="createListingModalLabel">Create a New Listing</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="./controller/add-products.php" method="POST" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="productName" class="form-label">Product Name <span style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" id="productName" name="product_name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Description <small>(Put N/A if none)</small></label>
+                                            <textarea class="form-control" id="description" name="description" rows="9" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="price" class="form-label">Price <span style="color: red;">*</span></label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₱</span>
+                                                <input type="number" class="form-control" id="price" name="price" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="category" class="form-label">Category <span style="color: red;">*</span></label>
+                                            <select class="form-select" id="category" name="category" required>
+                                                <option value="">Select Category</option>
+                                                <?php
+                                                $categoryQuery = "SELECT id, name FROM categories";
+                                                $categories = mysqli_query($con, $categoryQuery);
+                                                while ($category = mysqli_fetch_assoc($categories)) {
+                                                    echo "<option value='{$category['id']}'>{$category['name']}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="quantity" class="form-label">Quantity <span style="color: red;">*</span></label>
+                                            <input type="number" class="form-control" id="quantity" name="quantity" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="images" class="form-label">Product Images <small>(Optional)</small></label>
+                                            <input type="file" class="form-control" id="images" name="images[]" multiple>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" name="addproduct" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th style="width: 400px;">Description</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $query = "SELECT
+                            product.product_id, 
+                            product.`name`, 
+                            product.description, 
+                            product.price, 
+                            product.category, 
+                            product.quantity, 
+                            product.`status`, 
+                            product_images.image AS image, 
+                            categories.`name` AS categoryName
+                            FROM
+                            product
+                            LEFT JOIN
+                            product_images
+                            ON 
+                            product.product_id = product_images.product_id AND product_images.is_primary = 1
+                            INNER JOIN
+                            categories
+                            ON 
+                            product.category = categories.id
+                            WHERE
+                            product.vendor_id = $userId
+                            GROUP BY
+                            product.product_id";
+                        $query_run = mysqli_query($con, $query);
+                        if (!$query_run) {
+                            die("Query failed: " . mysqli_error($con));
                         }
-                      }).render();
-                    });
-                  </script>
-                  <!-- End Line Chart -->
+                        if (mysqli_num_rows($query_run) > 0) {
+                            foreach ($query_run as $row) {
+                                // Prepare image
+                                $profileImageSrc = !empty($row['image']) 
+                                    ? 'data:image/jpeg;base64,' . base64_encode($row['image']) 
+                                    : './assets/img/noimage.jpg';
+                        ?>
+                            <tr>
+                                <!-- Wrap each cell with a link to the details page -->
+                                <td>
+                                        <img src="<?= $profileImageSrc; ?>" alt="Product Image" style="width: 100px; height: 100px;">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" 
+                                    class="view-details-link" 
+                                    data-id="<?= $row['product_id']; ?>" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#viewDetailsModal">
+                                    <?= $row['name']; ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $description = $row['description'];
+                                    $words = explode(' ', $description);
+                                    $words = array_slice($words, 0, 50);
+                                    $truncatedDescription = implode(' ', $words);
 
+                                    if (count($words) < count(explode(' ', $description))) {
+                                        $truncatedDescription .= '...';
+                                    }
+
+                                    echo $truncatedDescription;
+                                    ?>
+                                </td>
+                                <td><?= number_format($row['price'], 2, '.', ','); ?></td>
+                                <td><?= $row['categoryName']; ?></a></td>
+                                <td><?= $row['quantity']; ?></a></td>
+                                <td>
+                                        <?php
+                                        if ($row['status'] == 'Available') {
+                                            echo '<span class="badge bg-success">Available</span>';
+                                        } elseif ($row['status'] == 'Sold Out') {
+                                            echo '<span class="badge bg-warning text-dark">Sold Out</span>';
+                                        } elseif ($row['status'] == 'Disabled') {
+                                            echo '<span class="badge bg-secondary">Disabled</span>';
+                                        } else {
+                                            echo '<span class="badge bg-light">Invalid</span>';
+                                        }
+                                        ?>
+                                    </a>
+                                </td>
+                            <td class="text-center">
+                                <!-- Edit Dropdown -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Edit
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <!-- Edit Details Option -->
+                                        <li>
+                                            <a href="javascript:void(0);" class="dropdown-item edit-product" 
+                                            data-id="<?= $row['product_id']; ?>" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editDetailsModal">
+                                            Details
+                                            </a>
+                                        </li>
+                                        <!-- Edit Image Option -->
+                                        <li>
+                                            <a href="javascript:void(0);" class="dropdown-item edit-image" 
+                                            data-id="<?= $row['product_id']; ?>" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editImageModal">
+                                            Image
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Delete Button -->
+                                <a href="javascript:void(0);" 
+                                class="btn btn-danger btn-sm delete-product" 
+                                data-id="<?= $row['product_id']; ?>" 
+                                data-name="<?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#deleteConfirmationModal">
+                                    Delete
+                                </a>
+                            </td>
+
+                            </tr>
+                        <?php
+                            }
+                        } else {
+                        ?>
+                            <tr>
+                                <td colspan="8">No Record Found</td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-              </div>
-            </div><!-- End Reports -->
-
-            <!-- Recent Sales -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+<!-- Modal for Viewing Product Details -->
+<div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewDetailsModalLabel">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="productDetailsContent">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <strong id="deleteProductName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteProductForm" method="POST" action="./controller/delete-product.php">
+                    <input type="hidden" name="product_id" id="deleteProductId">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+<!-- Edit Image Modal -->
+<div class="modal fade" id="editImageModal" tabindex="-1" aria-labelledby="editImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editImageModalLabel">Manage Product Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="productImageContent" class="row">
+                    <div class="col-md-3 text-center">
+                        <img src="path/to/image.jpg" alt="Product Image" class="img-thumbnail">
+                        <button type="button" class="btn btn-primary">Set as Primary</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                    <!-- Add more images and buttons dynamically -->
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-              </div>
-            </div><!-- End Recent Sales -->
-
-            <!-- Top Selling -->
-            <div class="col-12">
-              <div class="card top-selling overflow-auto">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body pb-0">
-                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
-
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Revenue</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>$64</td>
-                        <td class="fw-bold">124</td>
-                        <td>$5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>$46</td>
-                        <td class="fw-bold">98</td>
-                        <td>$4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>$59</td>
-                        <td class="fw-bold">74</td>
-                        <td>$4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>$32</td>
-                        <td class="fw-bold">63</td>
-                        <td>$2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>$79</td>
-                        <td class="fw-bold">41</td>
-                        <td>$3,239</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div><!-- End Top Selling -->
+<!-- Edit Details Modal -->
+<div class="modal fade" id="editDetailsModal" tabindex="-1" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDetailsModalLabel">Edit Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="./controller/update-product.php" method="POST">
+                    <input type="hidden" name="product_id" id="editProductId">
+                    <div class="mb-3">
+                        <label for="editProductName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="editProductName" name="product_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="editPrice" name="price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategory" class="form-label">Category</label>
+                        <select class="form-select" id="editCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <?php
+                            // Populate categories dynamically from the database
+                            $categoryQuery = "SELECT id, name FROM categories";
+                            $categories = mysqli_query($con, $categoryQuery);
+                            while ($category = mysqli_fetch_assoc($categories)) {
+                                echo "<option value='{$category['id']}'>{$category['name']}</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="editQuantity" name="quantity" required>
+                    </div>
+                    <!-- Save Changes button aligned to the right -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
           </div>
         </div><!-- End Left side columns -->
-
-        <!-- Right side columns -->
-        <div class="col-lg-4">
-
-          <!-- Recent Activity -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
-              <div class="activity">
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">32 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                  <div class="activity-content">
-                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">56 min</div>
-                  <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptatem blanditiis blanditiis eveniet
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 hrs</div>
-                  <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                  <div class="activity-content">
-                    Voluptates corrupti molestias voluptatem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">1 day</div>
-                  <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                  <div class="activity-content">
-                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">2 days</div>
-                  <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                  <div class="activity-content">
-                    Est sit eum reiciendis exercitationem
-                  </div>
-                </div><!-- End activity item-->
-
-                <div class="activity-item d-flex">
-                  <div class="activite-label">4 weeks</div>
-                  <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                  <div class="activity-content">
-                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                  </div>
-                </div><!-- End activity item-->
-
-              </div>
-
-            </div>
-          </div><!-- End Recent Activity -->
-
-          <!-- Budget Report -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
-              <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                    legend: {
-                      data: ['Allocated Budget', 'Actual Spending']
-                    },
-                    radar: {
-                      // shape: 'circle',
-                      indicator: [{
-                          name: 'Sales',
-                          max: 6500
-                        },
-                        {
-                          name: 'Administration',
-                          max: 16000
-                        },
-                        {
-                          name: 'Information Technology',
-                          max: 30000
-                        },
-                        {
-                          name: 'Customer Support',
-                          max: 38000
-                        },
-                        {
-                          name: 'Development',
-                          max: 52000
-                        },
-                        {
-                          name: 'Marketing',
-                          max: 25000
-                        }
-                      ]
-                    },
-                    series: [{
-                      name: 'Budget vs spending',
-                      type: 'radar',
-                      data: [{
-                          value: [4200, 3000, 20000, 35000, 50000, 18000],
-                          name: 'Allocated Budget'
-                        },
-                        {
-                          value: [5000, 14000, 28000, 26000, 42000, 21000],
-                          name: 'Actual Spending'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Budget Report -->
-
-          <!-- Website Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">Website Traffic <span>| Today</span></h5>
-
-              <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  echarts.init(document.querySelector("#trafficChart")).setOption({
-                    tooltip: {
-                      trigger: 'item'
-                    },
-                    legend: {
-                      top: '5%',
-                      left: 'center'
-                    },
-                    series: [{
-                      name: 'Access From',
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      avoidLabelOverlap: false,
-                      label: {
-                        show: false,
-                        position: 'center'
-                      },
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: '18',
-                          fontWeight: 'bold'
-                        }
-                      },
-                      labelLine: {
-                        show: false
-                      },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
-                      ]
-                    }]
-                  });
-                });
-              </script>
-
-            </div>
-          </div><!-- End Website Traffic -->
-
-          <!-- News & Updates Traffic -->
-          <div class="card">
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
-              </ul>
-            </div>
-
-            <div class="card-body pb-0">
-              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
-              <div class="news">
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-1.jpg" alt="">
-                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-2.jpg" alt="">
-                  <h4><a href="#">Quidem autem et impedit</a></h4>
-                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-3.jpg" alt="">
-                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-4.jpg" alt="">
-                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                </div>
-
-                <div class="post-item clearfix">
-                  <img src="assets/img/news-5.jpg" alt="">
-                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                </div>
-
-              </div><!-- End sidebar recent posts-->
-
-            </div>
-          </div><!-- End News & Updates -->
-
-        </div><!-- End Right side columns -->
 
       </div>
     </section>

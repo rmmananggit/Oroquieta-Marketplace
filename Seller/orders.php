@@ -7,11 +7,11 @@ include("./includes/sidebar.php");
 ?>
 
 <div class="pagetitle">
-    <h1>My Listings</h1>
+    <h1>My Orders</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">Dashboard</li>
-            <li class="breadcrumb-item active">My Listings</li>
+            <li class="breadcrumb-item active">My Order</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -39,27 +39,30 @@ include("./includes/sidebar.php");
                         <tbody>
                         <?php
                             $query = "SELECT
-                                        cart.*,
-                                        cart.status as cartStatus, 
-                                        product.*, 
-                                        product.vendor_id, 
-                                        users.first_name, 
-                                        users.middle_name, 
-                                        users.last_name
-                                    FROM
-                                        cart
-                                        INNER JOIN
-                                        product
-                                        ON 
-                                            cart.product_id = product.product_id
-                                        INNER JOIN
-                                        users
-                                        ON 
-                                            product.vendor_id = users.user_id
-                                    WHERE
-                                        users.user_id = $userId
-                                    ORDER BY
-                                        cart.dateCreated DESC";
+    c.*, 
+    c.id AS cart_id, 
+    c.status AS cartStatus, 
+    c.quantity AS cartQuantity,
+    p.*, 
+    p.vendor_id, 
+    u.first_name, 
+    u.middle_name, 
+    u.last_name
+FROM
+    cart AS c
+INNER JOIN
+    product AS p
+ON 
+    c.product_id = p.product_id
+INNER JOIN
+    users AS u
+ON 
+    p.vendor_id = u.user_id
+WHERE
+    u.user_id = $userId
+ORDER BY
+    c.dateCreated DESC
+";
                         $query_run = mysqli_query($con, $query);
                         if (!$query_run) {
                             die("Query failed: " . mysqli_error($con));
@@ -74,7 +77,7 @@ include("./includes/sidebar.php");
                             <tr>
                             <td><?= $row['first_name']; ?> <?= $row['middle_name']; ?> <?= $row['last_name']; ?></td>
                                 <td><?= $row['name']; ?></td>
-                                <td><?= $row['quantity']; ?></td>
+                                <td><?= $row['cartQuantity']; ?></td>
                                 <td><?= number_format($row['price'], 2, '.', ','); ?></td>
                                 <td>
                                     <?php
@@ -90,44 +93,17 @@ include("./includes/sidebar.php");
                                     ?>
                                 </td>
                               
-                            <td>
-                                <!-- Edit Dropdown -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Edit
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <!-- Edit Details Option -->
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item edit-product" 
-                                            data-id="<?= $row['product_id']; ?>" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#editDetailsModal">
-                                            Details
-                                            </a>
-                                        </li>
-                                        <!-- Edit Image Option -->
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item edit-image" 
-                                            data-id="<?= $row['product_id']; ?>" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#editImageModal">
-                                            Image
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Delete Button -->
-                                <a href="javascript:void(0);" 
-                                class="btn btn-danger btn-sm delete-product" 
-                                data-id="<?= $row['product_id']; ?>" 
-                                data-name="<?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?>" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#deleteConfirmationModal">
-                                    Delete
-                                </a>
-                            </td>
+                           <td>
+    <div class="btn-group">
+    <button type="button"
+        class="btn btn-primary btn-sm mark-as-sold"
+        data-cart-id="<?= $row['cart_id']; ?>"
+        data-product-id="<?= $row['product_id']; ?>"
+        data-quantity="<?= $row['cartQuantity']; ?>">
+    Mark as Sold
+</button>
+    </div>
+</td>
 
                             </tr>
                         <?php
