@@ -59,7 +59,7 @@
           </li>
           <li>
           <li>
-          <a class="dropdown-item d-flex align-items-center" href="dashboard.php">
+          <a class="dropdown-item d-flex align-items-center" href="orders.php">
             <i class="bi bi-bag"></i>
               <span>Orders</span>
             </a>
