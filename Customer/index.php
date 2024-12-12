@@ -13,6 +13,18 @@ include("./includes/topbar.php");
   /** Shop: Index **/
   /* General */
     /* Card Styling */
+    .sticky-column {
+        position: -webkit-sticky;  /* For Safari */
+        position: sticky;
+        top: 20px;  /* Adjust as needed to create space from top */
+        z-index: 1000;  /* Ensures the column is above other content */
+        padding-top: 20px;  /* Optional: Add space at the top */
+      }
+
+      .container .row {
+        position: relative;
+      }
+
   .shop__thumb {
       display: flex;
       flex-direction: column;
@@ -677,15 +689,17 @@ include("./includes/topbar.php");
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
+
 <div class="container">
   <div class="row">
-    <div class="col-sm-4 col-md-3">
-      <form>
+    <div class="col-sm-4 col-md-3 sticky-column">
+      <h2>Product Filters:</h2>
+      <form method="GET" action="">
         <div class="well">
           <div class="row">
             <div class="col-sm-12">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search products...">
+                <input type="text" name="search" class="form-control" placeholder="Search products..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 <span class="input-group-btn">
                   <button class="btn btn-primary" type="submit">
                     <i class="fa fa-search"></i>
@@ -694,60 +708,113 @@ include("./includes/topbar.php");
               </div>
             </div>
           </div>
+          <div class="row mt-3">
+            <div class="col-sm-12">
+              <label for="priceFilter">Filter Prices</label>
+              <select name="priceFilter" id="priceFilter" class="form-control">
+                <option value="">Select a price range</option>
+                <option value="1" <?php echo isset($_GET['priceFilter']) && $_GET['priceFilter'] == '1' ? 'selected' : ''; ?>>₱0 - ₱50</option>
+                <option value="2" <?php echo isset($_GET['priceFilter']) && $_GET['priceFilter'] == '2' ? 'selected' : ''; ?>>₱51 - ₱100</option>
+                <option value="3" <?php echo isset($_GET['priceFilter']) && $_GET['priceFilter'] == '3' ? 'selected' : ''; ?>>₱101 - ₱200</option>
+                <option value="4" <?php echo isset($_GET['priceFilter']) && $_GET['priceFilter'] == '4' ? 'selected' : ''; ?>>₱201 and above</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-sm-12">
+              <label for="stockStatus">Stock Status</label>
+              <select name="stockStatus" id="stockStatus" class="form-control">
+                <option value="">Select Stock Status</option>
+                <option value="Available" <?php echo isset($_GET['stockStatus']) && $_GET['stockStatus'] == 'Available' ? 'selected' : ''; ?>>Available</option>
+                <option value="Sold Out" <?php echo isset($_GET['stockStatus']) && $_GET['stockStatus'] == 'Sold Out' ? 'selected' : ''; ?>>Sold Out</option>
+              </select>
+            </div>
+          </div>
         </div>
-      </form>
-
-      <!-- Filter -->
-      <form class="shop__filter mb-2">
-        <!-- Price -->
-        <h3 class="headline">
-          <span>Price</span>
-        </h3>
-        <div class="radio">
-          <input type="radio" name="shop-filter__price" id="shop-filter-price_1" value="" checked="">
-          <label for="shop-filter-price_1">Under $25</label>
-        </div>
-        <div class="radio">
-          <input type="radio" name="shop-filter__price" id="shop-filter-price_2" value="">
-          <label for="shop-filter-price_2">$25 to $50</label>
-        </div>
-        <div class="radio">
-          <input type="radio" name="shop-filter__price" id="shop-filter-price_3" value="">
-          <label for="shop-filter-price_3">$50 to $100</label>
-        </div>
-        <div class="radio">
-          <input type="radio" name="shop-filter__price" id="shop-filter-price_4" value="specify">
-          <label for="shop-filter-price_4">Other (specify)</label>
-        </div>
-
-
       </form>
     </div>
     
     <div class="col-sm-8 col-md-9">
-      <!-- Filters -->
-      <ul class="shop__sorting">
-        <li class="active"><a href="#">Popular</a></li>
-        <li><a href="#">Newest</a></li>
-        <li><a href="#">Bestselling</a></li>
-        <li><a href="#">Price (low)</a></li>
-        <li><a href="#">Price (high)</a></li>
-      </ul>
-
       <div class="row">
         <?php
-        // Fetch products from the database
-        $query = "SELECT product.product_id, product.name, product.price, product_images.image
-                  FROM product
-                  INNER JOIN product_images ON product.product_id = product_images.product_id
-                  WHERE product_images.is_primary = 1";
+        // Capture the search query, price filter, delivery method filter, and stock status filter if they are set
+        $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+        $priceFilter = isset($_GET['priceFilter']) ? $_GET['priceFilter'] : '';
+        $deliveryMethod = isset($_GET['deliveryMethod']) ? $_GET['deliveryMethod'] : '';
+        $stockStatus = isset($_GET['stockStatus']) ? $_GET['stockStatus'] : '';
+
+        // Base query
+        $query = "SELECT 
+                    product.product_id, 
+                    product.description, 
+                    product.name, 
+                    product.quantity,
+                    product.order_type,
+                    product.price, 
+                    MIN(product_images.image) AS image
+                  FROM 
+                    product
+                  INNER JOIN 
+                    product_images 
+                  ON 
+                    product.product_id = product_images.product_id";
+
+        // Add search condition if there's a search term
+        if ($searchQuery) {
+          $query .= " WHERE product.name LIKE '%" . mysqli_real_escape_string($con, $searchQuery) . "%' OR product.description LIKE '%" . mysqli_real_escape_string($con, $searchQuery) . "%'";
+        }
+
+        // Add price filter condition if set
+        if ($priceFilter) {
+          switch ($priceFilter) {
+            case '1':
+              $query .= " AND product.price BETWEEN 0 AND 50";
+              break;
+            case '2':
+              $query .= " AND product.price BETWEEN 51 AND 100";
+              break;
+            case '3':
+              $query .= " AND product.price BETWEEN 101 AND 200";
+              break;
+            case '4':
+              $query .= " AND product.price > 200";
+              break;
+          }
+        }
+
+        // Add delivery method filter condition if set
+        if ($deliveryMethod) {
+          $query .= " AND product.order_type = '" . mysqli_real_escape_string($con, $deliveryMethod) . "'";
+        }
+
+        // Add stock status filter condition if set
+        if ($stockStatus) {
+          if ($stockStatus == 'Available') {
+            $query .= " AND product.quantity > 0";  // Available if quantity is greater than 0
+          } else {
+            $query .= " AND product.quantity = 0";  // Sold Out if quantity is 0
+          }
+        }
+
+        $query .= " GROUP BY 
+                    product.product_id, 
+                    product.description, 
+                    product.name, 
+                    product.price;";
+
+        // Output the query to check if it's correctly formed
+        echo "<!-- Query: $query -->";
+
         $result = mysqli_query($con, $query);
-        
+
         // Loop through and display each product
         while ($product = mysqli_fetch_assoc($result)) {
           // Convert LONG BLOB to base64 for image rendering
           $imageData = base64_encode($product['image']);
           $imageSrc = 'data:image/jpeg;base64,' . $imageData;  // assuming image is jpeg, adjust if necessary
+
+          // Truncate description to first 10 words
+          $description = implode(' ', array_slice(explode(' ', $product['description']), 0, 10)) . '...';
 
           echo '<div class="col-sm-6 col-md-4">';
           echo '  <div class="shop__thumb">';
@@ -755,36 +822,25 @@ include("./includes/topbar.php");
           echo '      <div class="shop-thumb__img">';
           echo '        <img src="' . $imageSrc . '" class="img-responsive" alt="...">';
           echo '      </div>';
-          echo '      <h5 class="shop-thumb__title">' . $product['name'] . '</h5>';
-          echo '      <div class="shop-thumb__price">';
-          echo '        <span class="shop-thumb-price_new">$' . $product['price'] . '</span>';
+          echo '      <h2 class="shop-thumb__title">' . htmlspecialchars($product['name']) . '</h2>';
+          echo '      <p class="shop-thumb__description" style="font-size: 0.85em; color: #555;">' . htmlspecialchars($description) . '</p>';
+          echo '      <div class="shop-thumb__order-type">';  // Added Order Type
           echo '      </div>';
+          echo '      <div class="shop-thumb__price">';
+          echo '        <span class="shop-thumb-price_new">₱' . number_format($product['price'], 2) . '</span>';
+          echo '      </div>';
+
           echo '    </a>';
           echo '  </div>';
           echo '</div>';
         }
         ?>
       </div> <!-- / .row -->
-
-
-      <!-- Pagination -->
-      <div class="row">
-        <div class="col-sm-12">
-          <ul class="pagination pull-right">
-            <li class="disabled"><a href="#">«</a></li>
-            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">»</a></li>
-          </ul>
-        </div>
-      </div> <!-- / .row -->
-      
     </div> <!-- / .col-sm-8 -->
   </div> <!-- / .row -->
 </div>
+
+
 
 
 <?php
