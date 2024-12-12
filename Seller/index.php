@@ -192,29 +192,31 @@ include("./includes/sidebar.php");
                         <tbody>
                         <?php
                             $query = "SELECT
-                            product.product_id, 
-                            product.`name`, 
-                            product.description, 
-                            product.price, 
-                            product.category, 
-                            product.quantity, 
-                            product.`status`, 
-                            product_images.image AS image, 
-                            categories.`name` AS categoryName
-                            FROM
-                            product
-                            LEFT JOIN
-                            product_images
-                            ON 
-                            product.product_id = product_images.product_id AND product_images.is_primary = 1
-                            INNER JOIN
-                            categories
-                            ON 
-                            product.category = categories.id
-                            WHERE
-                            product.vendor_id = $userId
-                            GROUP BY
-                            product.product_id";
+	product.product_id, 
+	product.`name`, 
+	product.description, 
+	product.price, 
+	product.category, 
+	product.quantity, 
+	product.`status`, 
+	product_images.image AS image, 
+	categories.`name` AS categoryName
+FROM
+	product
+	LEFT JOIN
+	product_images
+	ON 
+		product.product_id = product_images.product_id
+	INNER JOIN
+	categories
+	ON 
+		product.category = categories.id
+WHERE
+	product.vendor_id = $userId
+GROUP BY
+	product.product_id
+ORDER BY
+	product.created_at DESC";
                         $query_run = mysqli_query($con, $query);
                         if (!$query_run) {
                             die("Query failed: " . mysqli_error($con));
