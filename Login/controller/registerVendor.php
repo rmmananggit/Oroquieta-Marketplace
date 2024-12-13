@@ -16,7 +16,7 @@ if (isset($_POST['signup'])) {
     if ($password != $re_pass) {
         $_SESSION['status'] = "Passwords do not match!";
         $_SESSION['status_code'] = "error";
-        header('Location: ../signup.php');
+        header('Location: ../index.php');
         exit(0);
     }
 
@@ -27,7 +27,7 @@ if (isset($_POST['signup'])) {
     if (mysqli_num_rows($result) > 0) {
         $_SESSION['status'] = "Email address or username is already taken!";
         $_SESSION['status_code'] = "error";
-        header('Location: ../signup.php');
+        header('Location: ../index.php');
         exit(0);
     }
 
